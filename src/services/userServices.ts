@@ -2,7 +2,7 @@ import http from '../utils/http';
 import Cookies from 'js-cookie';
 import setHttp from "../utils/setHttp";
 const constants = {
-  API_ORIGIN: import.meta.env.MODE === 'development' ? "/api" : 'https://api-service.chanmama.com',
+  API_ORIGIN: import.meta.env.MODE === 'development' ? "/api" : 'api',
 };
 console.log('dsadasd=====', import.meta.env)
 export async function login(username?: string, password?: string) {
