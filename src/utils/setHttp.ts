@@ -1,4 +1,4 @@
-import http from '../utils/http';
+import http from './http';
 import Cookies from 'js-cookie';
 import { getSSOToken, SSOLoginPlatformType } from "tezign-foundation-common/lib/utils/auth";
 

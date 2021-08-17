@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import logo from './logo.svg'
-import { login } from '../../services/userServices'
 import { getProductList } from '../../services/productServices'
-import json2Excel from '../../utils/json2Excel'
 import {exportExcel} from "../../utils/excel"
 import { Button, Input, InputNumber, Select } from 'antd';
 const Search = Input.Search;
@@ -114,7 +111,7 @@ function ProductExcel() {
         setDayType(value)
       }}
       style={{ width: 320, marginRight: 16 }}
-      options={[{value: 1, label: 1},{value: 7, label: 7},{value: 30, label: 30},]} defaultValue={30} style={{ width: 120, marginRight: 16 }}>
+      options={[{value: 1, label: 1},{value: 7, label: 7},{value: 30, label: 30},]} defaultValue={30}>
       </Select>天
       <InputNumber min={0} defaultValue={30} onChange={(value: number) => {
         setCount(value)
