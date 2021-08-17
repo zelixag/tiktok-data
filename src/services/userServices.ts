@@ -1,5 +1,3 @@
-
-import { hasSSOLogin, setSSOToken, setSSOUid, SSOLoginPlatformType } from 'tezign-foundation-common/lib/utils/auth';
 import http from '../utils/http';
 import Cookies from 'js-cookie';
 import setHttp from "../utils/setHttp";

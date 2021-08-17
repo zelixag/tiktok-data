@@ -113,9 +113,9 @@ function ProductExcel() {
       style={{ width: 320, marginRight: 16 }}
       options={[{value: 1, label: 1},{value: 7, label: 7},{value: 30, label: 30},]} defaultValue={30}>
       </Select>天
-      <InputNumber min={0} defaultValue={30} onChange={(value: number) => {
+      <InputNumber min={0} defaultValue={100} onChange={(value: number) => {
         setCount(value)
-      }} placeholder="输入数字"></InputNumber>
+      }} placeholder="输入数字"></InputNumber>条
       <Search onChange={(event) => {
         debugger
         setKeyword(event.target.value)
