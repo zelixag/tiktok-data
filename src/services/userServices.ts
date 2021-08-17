@@ -2,9 +2,9 @@ import http from '../utils/http';
 import Cookies from 'js-cookie';
 import setHttp from "../utils/setHttp";
 const constants = {
-  API_ORIGIN: "/api",
+  API_ORIGIN: import.meta.env.MODE === 'development' ? "/api" : 'https://api-service.chanmama.com',
 };
-
+console.log('dsadasd=====', import.meta.env)
 export async function login(username?: string, password?: string) {
   // if(Cookies.get('LOGIN-TOKEN-FORSNS')) return
   const res = await http.postForm(`${constants.API_ORIGIN}/v1/access/token`, {
