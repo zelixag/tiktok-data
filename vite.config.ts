@@ -1,6 +1,5 @@
 import { defineConfig } from 'vite'
 import reactRefresh from '@vitejs/plugin-react-refresh'
-import styleImport from 'vite-plugin-style-import';
 import vitePluginImp from 'vite-plugin-imp'
 const constants = {
   API_ORIGIN: "https://api-service.chanmama.com/v1",

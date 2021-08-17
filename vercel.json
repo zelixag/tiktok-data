@@ -1,11 +1,7 @@
 {
-     
   "rewrites": [
     {
-     
-      // 访问路径匹配规则
       "source": "/api/(.*)",
-      // 重写的目标地址
       "destination": "/api/proxy"
     }
   ]

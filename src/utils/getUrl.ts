@@ -1,6 +1,6 @@
 
 const constants = {
-  API_ORIGIN: import.meta.env.MODE === 'development' ? "/api" : 'https://api-service.chanmama.com',
+  API_ORIGIN: import.meta.env.MODE === 'development' ? "/api" : '/api',
 };
 export default function getUrl(url: string) {
   if (url.indexOf('http') === 0) return url;
