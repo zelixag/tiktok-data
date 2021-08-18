@@ -31,8 +31,8 @@ function ProductExcel() {
     },
     {
       title: '佣金比例',
-      dataIndex: 'estimated_commission',
-      key: 'estimated_commission',
+      dataIndex: 'tb_max_commission_rate',
+      key: 'tb_max_commission_rate',
       className: 'text-monospace',
   }, {
     title: '总销量',
