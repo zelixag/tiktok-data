@@ -36,8 +36,8 @@ function ProductExcel() {
       className: 'text-monospace',
   }, {
     title: '总销量',
-    dataIndex: 'day_order_count',
-    key: 'day_order_count',
+    dataIndex: 'duration_volume',
+    key: 'duration_volume',
   },{
       title: '直播销量',
       dataIndex: 'duration_live_volume',
