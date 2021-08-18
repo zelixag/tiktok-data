@@ -79,7 +79,6 @@ const TalentSearch = () => {
     if(index < kwArray.length) {
       const talentInfo = await getTalentList({...searchParams, keyword: kwArray[index]})
       talentList.push(talentInfo.list[0])
-      setList(list => list.concat(talentList))
       setTimeout(() => {
         search(index + 1)
       }, 500);
@@ -88,6 +87,7 @@ const TalentSearch = () => {
         item.aweme_digg_follower_ration = item.aweme_digg_follower_ration + '%'
         return item
       })
+      setList(talentList)
       exportExcel(header, list, '达人信息.xlsx');
       setLoading(true)
     }
