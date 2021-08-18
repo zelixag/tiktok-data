@@ -103,6 +103,7 @@ const TalentSearch = () => {
         </div>
         <Button loading={!loading} type="primary" onClick={() =>{
           search(0)
+          setList([])
         }}>{loading ? '导出表格': '请稍等一会儿，表格制作中'}</Button>
       </div>
       <div style={{marginTop: 24}}>
