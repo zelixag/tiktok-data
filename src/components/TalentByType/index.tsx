@@ -1,8 +1,14 @@
-import { Button, Input, Table } from "antd"
+import { Button, Input, Select, Table } from "antd"
 import React, { useEffect, useState } from "react"
-import { getTalentList } from "../../services/talentServices"
+import { getStarCategory, getTalentList } from "../../services/talentServices"
 import { exportExcel } from "../../utils/excel"
 const header = [
+  {
+    title: '抖音ID',
+    dataIndex: 'unique_id',
+    key: 'unique_id',
+    className: 'text-monospace',
+  },
   {
       title: '达人',
       dataIndex: 'nickname',
@@ -40,16 +46,18 @@ const header = [
       className: 'text-monospace',
   }]
 const TalentSearch = () => {
-  const [keywords, setKeywords] = useState('')
   const [loading, setLoading] = useState(true)
   const [list, setList] = useState<any[]>([])
+  const [ids, setIds] = useState<any[]>([])
+  const [starCategory, setStarCategory] = useState<string>('')
+  const [starCategoryList, setStarCategoryList] = useState<any[]>([])
   const searchParams = {
     page:1,
     reputation_level:-1,
     star_category:undefined,
     star_sub_category:undefined,
     goods_cat:undefined,
-    keyword: '1009408837',
+    keyword: undefined,
     gender:-1,
     age:undefined,
     fans_gender:-1,
@@ -69,37 +77,51 @@ const TalentSearch = () => {
     verification_type:0,
     sort:'follower_count',
     order_by:'desc',
-    size:52,
+    size:100,
     similar_author_id:undefined,
   }
+  useEffect(() => {
+    (async () => {
+      const starCategory = await getStarCategory()
+      setStarCategoryList(starCategory.map(((category: any) => {
+        return {
+          label: category.id,
+          value: category.id,
+        }
+      })))
+    })()
+  }, [])
   let talentList: any[] = []
-  const search = async (index:number) => {
+  const search = async (nextPage:number) => {
     setLoading(false)
-    const kwArray = keywords.includes(',')?keywords.replace(/' '/g, '').split(','):[keywords]
-    if(index < kwArray.length) {
-      const talentInfo = await getTalentList({...searchParams, keyword: kwArray[index]})
-      talentList.push(talentInfo.list[0])
-      setList(talentList)
+    let data = await getTalentList({...searchParams, page: nextPage,star_category:starCategory })
+    if(!data) return;
+    const {page, totalCount, totalPage } = data.page_info
+    talentList = talentList.concat(data.list)
+    setList(talentList)
+    if(totalCount > 50 && nextPage < totalPage) {
       setTimeout(() => {
-        search(index + 1)
-      }, 500);
+        search(page + 1)
+      }, 2000)
     } else {
       const list = talentList.map(item => {
         item.aweme_digg_follower_ration = item.aweme_digg_follower_ration + '%'
         return item
       })
-      exportExcel(header, list, '达人信息.xlsx');
+      setIds(talentList.map(item => item.unique_id))
+      const fileName = starCategory ?`关于【${starCategory}】达人列表.xlsx` : '达人列表.xlsx'
+      exportExcel(header, list, fileName);
       setLoading(true)
     }
   }
   return <div>
-    <h3>批量ID搜索达人信息</h3>
+    <h3>类型搜索搜索达人信息</h3>
       <div className="search-form">
         <div className="form-select-day form-item">
           <span>输入抖音id(使用英文逗号隔开):</span>
-          <Input style={{ width: 320, marginRight: 16 }} onChange={(event) => {
-            setKeywords(event.target.value)
-          }}></Input>
+          <Select options={starCategoryList} style={{ width: 320, marginRight: 16 }} onChange={(value: any) => {
+            setStarCategory(value)
+          }}></Select>
         </div>
         <Button loading={!loading} type="primary" onClick={() =>{
           search(0)
@@ -108,6 +130,11 @@ const TalentSearch = () => {
       <div style={{marginTop: 24}}>
         <h3>预览表格</h3>
       <Table dataSource={list} columns={header} />
+      </div>
+      <div style={{marginTop: 24,width: 500}}>
+        <h3>抖音IDS</h3>
+        <div style={{marginTop: 24,width: 500,display: 'flex', flexDirection: 'column'}}>
+        </div>
       </div>
     </div>
 }

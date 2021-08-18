@@ -2,6 +2,7 @@ import { Collapse } from 'antd';
 import React, { useEffect, useState } from 'react'
 import './App.css'
 import ProductExcel from './components/ProductExcel/index';
+import TalentByType from './components/TalentByType';
 import TalentSearch from './components/TalentIdBatchSearch';
 import { login } from './services/userServices';
 const { Panel } = Collapse;
@@ -19,7 +20,7 @@ function App() {
         <TalentSearch />
       </Panel>
       <Panel showArrow={false} header="基于达人分类达人信息导出" key="3">
-
+        <TalentByType/>
       </Panel>
     </Collapse>
     </div>
