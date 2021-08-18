@@ -1,0 +1,15 @@
+.search-form {
+  display: flex;
+}
+.form-select-day {
+  margin-right: 16px;
+}
+.form-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+}
+.form-item  span {
+  margin-right: 12px;
+}
