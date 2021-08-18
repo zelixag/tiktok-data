@@ -79,7 +79,7 @@ const TalentSearch = () => {
     if(index < kwArray.length) {
       const talentInfo = await getTalentList({...searchParams, keyword: kwArray[index]})
       talentList.push(talentInfo.list[0])
-      setList(talentList)
+      setList(list => list.concat(talentList))
       setTimeout(() => {
         search(index + 1)
       }, 500);
