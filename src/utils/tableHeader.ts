@@ -93,6 +93,12 @@ export const talentHeaders = [
       className: 'text-monospace',
   },
   {
+      title: '近30天直播场次',
+      dataIndex: 'month_live_count',
+      key: 'month_live_count',
+      className: 'text-monospace',
+  },
+  {
       title: '粉丝增量',
       dataIndex: 'follower_incr',
       key: 'follower_incr',

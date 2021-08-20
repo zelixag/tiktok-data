@@ -17,5 +17,13 @@ export async function getTalentList(params: any) {
 export async function getStarCategory() {
   return http.get(getUrl('/v1/common/starCategory'), {});
 }
+/**
+ *
+ * @returns 获取达人详情
+ * @params author_id 达人id
+ */
+export async function getTalentInfo(author_id: string) {
+  return http.get(getUrl(`/v1/author/detail/info?author_id=${author_id}`), {});
+}
 
 

@@ -1,6 +1,7 @@
 import { Button, Input, Select, Table } from "antd"
+import { throttle } from "lodash"
 import React, { useEffect, useState } from "react"
-import { getStarCategory, getTalentList } from "../../services/talentServices"
+import { getStarCategory, getTalentInfo, getTalentList } from "../../services/talentServices"
 import { exportExcel } from "../../utils/excel"
 import { talentHeaders } from "../../utils/tableHeader"
 
@@ -8,6 +9,7 @@ const TalentSearch = () => {
   const [loading, setLoading] = useState(true)
   const [list, setList] = useState<any[]>([])
   const [ids, setIds] = useState<string[]>([])
+  const [total, setTotal] = useState<number>(0)
   const [starCategory, setStarCategory] = useState<string>('')
   const [starCategoryList, setStarCategoryList] = useState<any[]>([])
   const searchParams = {
@@ -50,27 +52,44 @@ const TalentSearch = () => {
       })))
     })()
   }, [])
+  useEffect(() => {
+    if(list.length >0 && list.length === total || total === 500) {
+      const fileName = starCategory ?`关于【${starCategory}】达人列表.xlsx` : '达人列表.xlsx'
+      exportExcel(talentHeaders, list, fileName);
+      setLoading(true)
+    }
+  }, [total])
   let talentList: any[] = []
+  let time = 0
+  const getDetail = (author_id: string) => {
+    time += 1000
+    console.log(time)
+    setTimeout(async () => {
+      const info = await getTalentInfo(author_id)
+      console.log(info)
+      setList(list => {return [...list, info]})
+
+    }, time)
+  }
   const search = async (nextPage:number) => {
     setLoading(false)
     let data = await getTalentList({...searchParams, page: nextPage,star_category:starCategory })
     if(!data) return;
     const {page, totalCount, totalPage } = data.page_info
+    !total && setTotal(totalCount)
     talentList = talentList.concat(data.list)
-    setList(talentList)
-    if(totalCount > 50 && nextPage < totalPage) {
+    if(totalCount > 50 && nextPage < (totalPage > 5 ? 5 : totalPage)) {
       setTimeout(() => {
         search(page + 1)
-      }, 2000)
+      }, 1000)
     } else {
-      const list = talentList.map(item => {
-        item.aweme_digg_follower_ration = item.aweme_digg_follower_ration + '%'
-        return item
+      const ids = talentList.map(item => item.author_id)
+      setIds(ids)
+      ids.forEach((id) => {
+        console.log(id)
+        getDetail(id)
       })
-      setIds(talentList.map(item => item.unique_id))
-      const fileName = starCategory ?`关于【${starCategory}】达人列表.xlsx` : '达人列表.xlsx'
-      exportExcel(talentHeaders, list, fileName);
-      setLoading(true)
+      // talentList = []
     }
   }
   return <div>

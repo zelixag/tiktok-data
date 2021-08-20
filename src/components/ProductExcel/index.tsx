@@ -72,7 +72,7 @@ function ProductExcel() {
           <Select onChange={(value) => {
             setSort(value)
           }}
-          style={{ width: 320, marginRight: 16 }}
+          style={{ width: 280, marginRight: 16 }}
           options={[{value: 'duration_volume', label: '总销量'},{value: 'duration_aweme_volume', label: "视频销量(件)"},{value: 'duration_live_volume', label: '直播销量（件）'},]} defaultValue={'duration_volume'}>
           </Select>天
         </div>
@@ -81,13 +81,13 @@ function ProductExcel() {
           <Select onChange={(value) => {
             setDayType(value)
           }}
-          style={{ width: 320, marginRight: 16 }}
+          style={{ width: 280, marginRight: 16 }}
           options={[{value: 1, label: 1},{value: 7, label: 7},{value: 30, label: 30},]} defaultValue={30}>
           </Select>天
         </div>
         <div className="form-select-day form-item">
           <span>关键字:</span>
-          <Input style={{ width: 320, marginRight: 16 }} onChange={(event) => {
+          <Input style={{ width: 280, marginRight: 16 }} placeholder="请输入商品链接、标题或者关键词" onChange={(event) => {
             setKeyword(event.target.value)
           }}></Input>
         </div>
