@@ -1,4 +1,10 @@
 import XLSX from "xlsx";
+interface IHeader {
+  title: string,
+  dataIndex: string,
+  key: string,
+  className?: string,
+}
 //引入xlsx
 /**
  * 导入excel的函数
@@ -18,7 +24,7 @@ const importsExcel = (file: any) => {
         const { result } = event.target as any;
         // 以二进制流方式读取得到整份excel表格对象
         const workbook = XLSX.read(result, { type: "binary" });
-        let data: any = []; // 存储获取到的数据
+        let data: any[] = []; // 存储获取到的数据
         // 遍历每张工作表进行读取（这里默认只读取第一张表）
         for (const sheet in workbook.Sheets) {
           if (workbook.Sheets.hasOwnProperty(sheet)) {
@@ -43,9 +49,9 @@ const importsExcel = (file: any) => {
  * @param {*} data
  * @param {*} fileName
  */
-const exportExcel = (headers: any, data: any, fileName = "demo.xlsx") => {
+const exportExcel = (headers: IHeader[], data: any, fileName: string = "demo.xlsx") => {
   const _headers = headers
-    .map((item: any, i: number) =>
+    .map((item: IHeader, i: number) =>
       Object.assign(
         {},
         {

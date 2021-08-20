@@ -1,13 +1,11 @@
 import http from '../utils/http';
 import Cookies from 'js-cookie';
 import setHttp from "../utils/setHttp";
-const constants = {
-  API_ORIGIN: import.meta.env.MODE === 'development' ? "/api" : 'api',
-};
-console.log('dsadasd=====', import.meta.env)
+import constants from '../utils/constants';
+import { getUrl } from '../utils/getUrl';
+
 export async function login(username?: string, password?: string) {
-  // if(Cookies.get('LOGIN-TOKEN-FORSNS')) return
-  const res = await http.postForm(`${constants.API_ORIGIN}/v1/access/token`, {
+  const res = await http.postForm(getUrl(`/v1/access/token`), {
     appId: 10000,
     timeStamp: 1629103627,
     username: username || "15311093065",

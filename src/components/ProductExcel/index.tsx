@@ -3,70 +3,15 @@ import { getProductList } from '../../services/productServices'
 import {exportExcel} from "../../utils/excel"
 import './index.css'
 import { Button, Input, InputNumber, Select } from 'antd';
+import { productHeaders } from '../../utils/tableHeader';
 function ProductExcel() {
 
   const [keyword, setKeyword] = useState<string>('')
   const [dayType, setDayType] = useState<number>(30)
-  const [page, setPage] = useState<number>(1)
+  const [sort, setSort] = useState<string>('duration_volume')
   const [loading, setLoading] = useState(true)
   const [params, setParams] = useState<any>({})
 
-  const [header,ActioHeader]=useState([
-    {
-        title: '商品',
-        dataIndex: 'title',
-        key: 'title',
-        className: 'text-monospace',
-    }, {
-      title: '划线价',
-      dataIndex: 'market_price',
-      key: 'market_price',
-    },{
-        title: '价格',
-        dataIndex: 'final_price',
-        key: 'final_price',
-    }, {
-        title: '商家',
-        dataIndex: 'shop_name',
-        key: 'shop_name',
-    },
-    {
-      title: '佣金比例',
-      dataIndex: 'tb_max_commission_rate',
-      key: 'tb_max_commission_rate',
-      className: 'text-monospace',
-  }, {
-    title: '总销量',
-    dataIndex: 'duration_volume',
-    key: 'duration_volume',
-  },{
-      title: '直播销量',
-      dataIndex: 'duration_live_volume',
-      key: 'duration_live_volume',
-  }, {
-      title: '视频销量（件）',
-      dataIndex: 'duration_aweme_volume',
-      key: 'duration_aweme_volume',
-  },
-  {
-    title: '转化率',
-    dataIndex: 'duration_product_rate',
-    key: 'duration_product_rate',
-    className: 'text-monospace',
-}, {
-  title: '关联达人',
-  dataIndex: 'duration_author_count',
-  key: 'duration_author_count',
-},{
-    title: '关联直播',
-    dataIndex: 'duration_live_count',
-    key: 'duration_live_count',
-}, {
-    title: '关联视频',
-    dataIndex: 'duration_video_count',
-    key: 'duration_video_count',
-}
-  ])
   let list: any[] = []
   useEffect(() => {
     const params = {
@@ -85,7 +30,7 @@ function ProductExcel() {
       first_category: "",
       second_category: "",
       platform: "",
-      sort: "duration_volume",
+      sort: sort,
       order_by: "desc",
       day_type: dayType,
       most_volume: -1,
@@ -93,16 +38,19 @@ function ProductExcel() {
       most_live_volume: 0,
     };
     setParams(params)
-  }, [keyword, dayType, page])
+  }, [keyword, dayType, sort])
   const search = async (nextPage: number) => {
     setLoading(false)
     let data = await getProductList({...params, page: nextPage,})
     if(!data) return;
     const {page, totalCount, totalPage } = data.page_info
     list = list.concat(data.list)
+    // 总条数大于50，分页等于总页数，则停止搜索
     if(totalCount > 50 && nextPage < totalPage) {
-      setTimeout(() => {
+      // 模仿人操作，不然递归太快，会被识别成机器人
+      const timer = setTimeout(() => {
         search(page + 1)
+        clearTimeout(timer)
       }, 500)
     } else {
       const productList = list.map((item:any) => {
@@ -111,7 +59,7 @@ function ProductExcel() {
         return item
       });
       const fileName = keyword ?`关于【${keyword}】商品列表.xlsx` : '商品列表.xlsx'
-      exportExcel(header, productList, fileName);
+      exportExcel(productHeaders, productList, fileName);
       setLoading(true)
     }
   }
@@ -119,6 +67,15 @@ function ProductExcel() {
     <div className="product_excel">
       <h3>商品Excel生成</h3>
       <div className="search-form">
+      <div className="form-select-day form-item">
+          <span>选择降序排序规则:</span>
+          <Select onChange={(value) => {
+            setSort(value)
+          }}
+          style={{ width: 320, marginRight: 16 }}
+          options={[{value: 'duration_volume', label: '总销量'},{value: 'duration_aweme_volume', label: "视频销量(件)"},{value: 'duration_live_volume', label: '直播销量（件）'},]} defaultValue={'duration_volume'}>
+          </Select>天
+        </div>
         <div className="form-select-day form-item">
           <span>选择天数:</span>
           <Select onChange={(value) => {

@@ -2,53 +2,12 @@ import { Button, Input, Select, Table } from "antd"
 import React, { useEffect, useState } from "react"
 import { getStarCategory, getTalentList } from "../../services/talentServices"
 import { exportExcel } from "../../utils/excel"
-const header = [
-  {
-    title: '抖音ID',
-    dataIndex: 'unique_id',
-    key: 'unique_id',
-    className: 'text-monospace',
-  },
-  {
-      title: '达人',
-      dataIndex: 'nickname',
-      key: 'nickname',
-      className: 'text-monospace',
-  },
-  {
-      title: '粉丝量',
-      dataIndex: 'follower_count',
-      key: 'follower_count',
-      className: 'text-monospace',
-  },
-  {
-      title: '粉丝增量',
-      dataIndex: 'follower_incr',
-      key: 'follower_incr',
-      className: 'text-monospace',
-  },
-  {
-      title: '视频预期点赞',
-      dataIndex: 'aweme_digg_medium',
-      key: 'aweme_digg_medium',
-      className: 'text-monospace',
-  },
-  {
-      title: '平均占粉比',
-      dataIndex: 'aweme_digg_follower_ration',
-      key: 'aweme_digg_follower_ration',
-      className: 'text-monospace',
-  },
-  {
-      title: '粉丝增量',
-      dataIndex: 'follower_incr',
-      key: 'follower_incr',
-      className: 'text-monospace',
-  }]
+import { talentHeaders } from "../../utils/tableHeader"
+
 const TalentSearch = () => {
   const [loading, setLoading] = useState(true)
   const [list, setList] = useState<any[]>([])
-  const [ids, setIds] = useState<any[]>([])
+  const [ids, setIds] = useState<string[]>([])
   const [starCategory, setStarCategory] = useState<string>('')
   const [starCategoryList, setStarCategoryList] = useState<any[]>([])
   const searchParams = {
@@ -110,7 +69,7 @@ const TalentSearch = () => {
       })
       setIds(talentList.map(item => item.unique_id))
       const fileName = starCategory ?`关于【${starCategory}】达人列表.xlsx` : '达人列表.xlsx'
-      exportExcel(header, list, fileName);
+      exportExcel(talentHeaders, list, fileName);
       setLoading(true)
     }
   }
@@ -129,7 +88,7 @@ const TalentSearch = () => {
       </div>
       <div style={{marginTop: 24}}>
         <h3>预览表格</h3>
-      <Table dataSource={list} columns={header} />
+      <Table dataSource={list} columns={talentHeaders} />
       </div>
       <div style={{marginTop: 24,width: 500}}>
         <h3>抖音IDS</h3>
