@@ -1,15 +1,17 @@
 import { Button, Input, Select, Table } from "antd"
 import { throttle } from "lodash"
 import React, { useEffect, useState } from "react"
-import { getStarCategory, getTalentInfo, getTalentList } from "../../services/talentServices"
+import { getAwemeOverview, getStarCategory, getTalentInfo, getTalentList, getTalentLiveOverview, productAnalysis } from "../../services/talentServices"
 import { exportExcel } from "../../utils/excel"
-import { talentHeaders } from "../../utils/tableHeader"
-
+import { talentBuyProductHeaders, talentHeaders } from "../../utils/tableHeader"
+const MAX_COUNT = 30
 const TalentSearch = () => {
   const [loading, setLoading] = useState(true)
   const [list, setList] = useState<any[]>([])
+  const [talentBuyProductList, setTalentBuyProductList] = useState<any[]>([])
   const [ids, setIds] = useState<string[]>([])
   const [total, setTotal] = useState<number>(0)
+  const [sort, setSort] = useState<string>('')
   const [starCategory, setStarCategory] = useState<string>('')
   const [starCategoryList, setStarCategoryList] = useState<any[]>([])
   const searchParams = {
@@ -41,6 +43,23 @@ const TalentSearch = () => {
     size:100,
     similar_author_id:undefined,
   }
+  const talentBuyProductParams = {
+    author_id: 2862739114691172,
+    sort: 'amount',
+    keyword: '',
+    page: 1,
+    size: 100,
+    platform: undefined,
+    product_type: 0,
+    price: undefined,
+    brand_code: undefined,
+    big_category: undefined,
+    first_category: undefined,
+    second_category: undefined,
+    orderby: 'desc',
+    start_date: '2021-07-23',
+    end_date: '2021-08-21',
+  }
   useEffect(() => {
     (async () => {
       const starCategory = await getStarCategory()
@@ -53,27 +72,40 @@ const TalentSearch = () => {
     })()
   }, [])
   useEffect(() => {
-    if(list.length >0 && list.length === total || total === 500) {
+    if(list.length >0 && (list.length === total || total === 500) || list.length === MAX_COUNT) {
       const fileName = starCategory ?`关于【${starCategory}】达人列表.xlsx` : '达人列表.xlsx'
       exportExcel(talentHeaders, list, fileName);
+      if(talentBuyProductList?.length) {
+        exportExcel(talentBuyProductHeaders, talentBuyProductList, starCategory ?`关于【${starCategory}】达人带货列表.xlsx` : '达人带货列表.xlsx');
+      }
       setLoading(true)
     }
-  }, [total])
+  }, [total, list, talentBuyProductList])
   let talentList: any[] = []
   let time = 0
-  const getDetail = (author_id: string) => {
+  const getDetail = (author_id: string, unique_id: string) => {
     time += 1000
-    console.log(time)
     setTimeout(async () => {
       const info = await getTalentInfo(author_id)
-      console.log(info)
-      setList(list => {return [...list, info]})
+      const liveOverview = await getTalentLiveOverview(author_id)
+      const awemeOverview = await getAwemeOverview(author_id)
+      let productData = await productAnalysis({...talentBuyProductParams, author_id })
+      if(info?.reputation) {
+        info.reputationScore = info.reputation.score
+      }
+      setList(list => {return [...list, ...[{...info, ...liveOverview, ...awemeOverview}]]})
 
+      if(!productData?.list?.length) return
+      const buyProductList = productData.list.map(item => {
+        item.unique_id = unique_id
+        return item
+      })
+      setTalentBuyProductList(pList => {return [...pList, ...buyProductList]} )
     }, time)
   }
   const search = async (nextPage:number) => {
     setLoading(false)
-    let data = await getTalentList({...searchParams, page: nextPage,star_category:starCategory })
+    let data = await getTalentList({...searchParams, page: nextPage,star_category:starCategory, sort })
     if(!data) return;
     const {page, totalCount, totalPage } = data.page_info
     !total && setTotal(totalCount)
@@ -84,19 +116,25 @@ const TalentSearch = () => {
       }, 1000)
     } else {
       const ids = talentList.map(item => item.author_id)
-      setIds(ids)
-      ids.forEach((id) => {
-        console.log(id)
-        getDetail(id)
-      })
-      // talentList = []
+      setIds(talentList.map(item => item.unique_id))
+
+      for (let i = 0; i < talentList.length; i++) {
+        if(i === MAX_COUNT) break;
+        getDetail(talentList[i].author_id, talentList[i].unique_id)
+      }
     }
   }
   return <div>
     <h3>类型搜索搜索达人信息</h3>
       <div className="search-form">
+      <div className="form-select-day form-item">
+          <span>排序:</span>
+          <Select options={[{label: '粉丝增量',value: "follower_count"}, {label: '近30日直播场均销售额',value: "live_average_amount_30"}]} style={{ width: 320, marginRight: 16 }} onChange={(value: any) => {
+            setSort(value)
+          }}></Select>
+        </div>
         <div className="form-select-day form-item">
-          <span>输入抖音id(使用英文逗号隔开):</span>
+          <span>类型:</span>
           <Select options={starCategoryList} style={{ width: 320, marginRight: 16 }} onChange={(value: any) => {
             setStarCategory(value)
           }}></Select>
@@ -112,6 +150,10 @@ const TalentSearch = () => {
       <div style={{marginTop: 24,width: 500}}>
         <h3>抖音IDS</h3>
         <div style={{marginTop: 24,width: 500,display: 'flex', flexDirection: 'column'}}>
+          {ids.map((item,index) => {
+            if(index > 5) return ''
+            return item+','
+          })}
         </div>
       </div>
     </div>

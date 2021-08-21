@@ -69,7 +69,13 @@ export const talentHeaders = [
       className: 'text-monospace',
   },
   {
-      title: '粉丝量',
+      title: '简介',
+      dataIndex: 'signature',
+      key: 'signature',
+      className: 'text-monospace',
+  },
+  {
+      title: '总粉丝数',
       dataIndex: 'follower_count',
       key: 'follower_count',
       className: 'text-monospace',
@@ -81,15 +87,57 @@ export const talentHeaders = [
       className: 'text-monospace',
   },
   {
-      title: '视频预期点赞',
-      dataIndex: 'aweme_digg_medium',
-      key: 'aweme_digg_medium',
+      title: '口碑',
+      dataIndex: 'reputationScore',
+      key: 'reputationScore',
       className: 'text-monospace',
   },
   {
-      title: '平均占粉比',
+      title: '近三十天直播场均销量(件)',
+      dataIndex: 'avg_live_volume',
+      key: 'avg_live_volume',
+      className: 'text-monospace',
+  },
+  {
+      title: '近30天直播场均销售额(件)',
+      dataIndex: 'avg_live_amount',
+      key: 'avg_live_amount',
+      className: 'text-monospace',
+  },
+  {
+      title: '本周开播场次',
+      dataIndex: 'week_count',
+      key: 'week_count',
+      className: 'text-monospace',
+  },
+  {
+      title: '月均开播场次',
+      dataIndex: 'avg_month_count',
+      key: 'avg_month_count',
+      className: 'text-monospace',
+  },
+  {
+      title: '近30天视频预估销量(件)',
+      dataIndex: 'product_aweme_count_30',
+      key: 'product_aweme_count_30',
+      className: 'text-monospace',
+  },
+  {
+      title: '近30天视频预估销售额',
       dataIndex: 'aweme_digg_follower_ration',
       key: 'aweme_digg_follower_ration',
+      className: 'text-monospace',
+  },
+  {
+      title: '周均视频个数',
+      dataIndex: 'average_week_aweme_count',
+      key: 'average_week_aweme_count',
+      className: 'text-monospace',
+  },
+  {
+      title: '月均视频个数',
+      dataIndex: 'average_month_aweme_count',
+      key: 'average_month_aweme_count',
       className: 'text-monospace',
   },
   {
@@ -97,10 +145,53 @@ export const talentHeaders = [
       dataIndex: 'month_live_count',
       key: 'month_live_count',
       className: 'text-monospace',
+  }]
+export const talentBuyProductHeaders = [
+  {
+    title: '抖音ID',
+    dataIndex: 'unique_id',
+    key: 'unique_id',
+    className: 'text-monospace',
   },
   {
-      title: '粉丝增量',
-      dataIndex: 'follower_incr',
+      title: '商品名称',
+      dataIndex: 'product_title',
+      key: 'product_title',
+      className: 'text-monospace',
+  },
+  {
+      title: '标签',
+      dataIndex: 'category',
+      key: 'category',
+      className: 'text-monospace',
+  },
+  {
+      title: '价格',
+      dataIndex: 'price',
+      key: 'price',
+      className: 'text-monospace',
+  },
+  {
+      title: '销量（件）',
+      dataIndex: 'volume',
       key: 'follower_incr',
+      className: 'text-monospace',
+  },
+  {
+      title: '销售额',
+      dataIndex: 'amount',
+      key: 'amount',
+      className: 'text-monospace',
+  },
+  {
+      title: '视频',
+      dataIndex: 'aweme_count',
+      key: 'aweme_count',
+      className: 'text-monospace',
+  },
+  {
+      title: '直播',
+      dataIndex: 'room_count',
+      key: 'room_count',
       className: 'text-monospace',
   }]

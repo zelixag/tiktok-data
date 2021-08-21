@@ -1,47 +1,12 @@
 import { Button, Input, Table } from "antd"
 import React, { useEffect, useState } from "react"
-import { getTalentList } from "../../services/talentServices"
+import { getAwemeOverview, getTalentInfo, getTalentList, getTalentLiveOverview } from "../../services/talentServices"
 import { exportExcel } from "../../utils/excel"
-const header = [
-  {
-      title: '达人',
-      dataIndex: 'nickname',
-      key: 'nickname',
-      className: 'text-monospace',
-  },
-  {
-      title: '粉丝量',
-      dataIndex: 'follower_count',
-      key: 'follower_count',
-      className: 'text-monospace',
-  },
-  {
-      title: '粉丝增量',
-      dataIndex: 'follower_incr',
-      key: 'follower_incr',
-      className: 'text-monospace',
-  },
-  {
-      title: '视频预期点赞',
-      dataIndex: 'aweme_digg_medium',
-      key: 'aweme_digg_medium',
-      className: 'text-monospace',
-  },
-  {
-      title: '平均占粉比',
-      dataIndex: 'aweme_digg_follower_ration',
-      key: 'aweme_digg_follower_ration',
-      className: 'text-monospace',
-  },
-  {
-      title: '粉丝增量',
-      dataIndex: 'follower_incr',
-      key: 'follower_incr',
-      className: 'text-monospace',
-  }]
-const TalentSearch = () => {
+import { talentHeaders } from "../../utils/tableHeader"
+const TalentByIdBatchSearch = () => {
   const [keywords, setKeywords] = useState('')
   const [loading, setLoading] = useState(true)
+  const [total, setTotal] = useState<number>(0)
   const [list, setList] = useState<any[]>([])
   const searchParams = {
     page:1,
@@ -72,10 +37,31 @@ const TalentSearch = () => {
     size:52,
     similar_author_id:undefined,
   }
+  useEffect(() => {
+    if(list.length >0 && (list.length === total || total === 5) || list.length === 5) {
+      exportExcel(talentHeaders, list, `关于达人信息列表.xlsx`);
+      setLoading(true)
+    }
+  }, [list])
   let talentList: any[] = []
+  let time = 0
+  const getDetail = (author_id: string) => {
+    if(list.length > 5) return
+    time += 1000
+    setTimeout(async () => {
+      const info = await getTalentInfo(author_id)
+      const liveOverview = await getTalentLiveOverview(author_id)
+      const awemeOverview = await getAwemeOverview(author_id)
+      if(info.reputation) {
+        info.reputationScore = info.reputation.score
+      }
+      setList(list => {return [...list, ...[{...info, ...liveOverview, ...awemeOverview}]]})
+    }, time)
+  }
   const search = async (index:number) => {
     setLoading(false)
     const kwArray = keywords.includes(',')?keywords.replace(/' '/g, '').split(','):[keywords]
+    !total && setTotal(kwArray.length)
     if(index < kwArray.length) {
       const talentInfo = await getTalentList({...searchParams, keyword: kwArray[index]})
       talentList.push(talentInfo.list[0])
@@ -83,13 +69,12 @@ const TalentSearch = () => {
         search(index + 1)
       }, 500);
     } else {
-      const list = talentList.map(item => {
-        item.aweme_digg_follower_ration = item.aweme_digg_follower_ration + '%'
-        return item
-      })
-      setList(talentList)
-      exportExcel(header, list, '达人信息.xlsx');
-      setLoading(true)
+      const ids = talentList.map(item => item.author_id)
+
+      for (let i = 0; i < ids.length; i++) {
+        if(i === 5) break;
+        getDetail(ids[i])
+      }
     }
   }
   return <div>
@@ -108,9 +93,9 @@ const TalentSearch = () => {
       </div>
       <div style={{marginTop: 24}}>
         <h3>预览表格</h3>
-      <Table dataSource={list} columns={header} />
+      <Table dataSource={list} columns={talentHeaders} />
       </div>
     </div>
 }
 
-export default TalentSearch
+export default TalentByIdBatchSearch
