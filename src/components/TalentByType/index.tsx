@@ -96,7 +96,7 @@ const TalentSearch = () => {
       setList(list => {return [...list, ...[{...info, ...liveOverview, ...awemeOverview}]]})
 
       if(!productData?.list?.length) return
-      const buyProductList = productData.list.map(item => {
+      const buyProductList = productData.list.map((item:any) => {
         item.unique_id = unique_id
         return item
       })
