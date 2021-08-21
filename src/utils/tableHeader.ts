@@ -4,34 +4,28 @@ export const productHeaders = [
       dataIndex: 'title',
       key: 'title',
       className: 'text-monospace',
-      fixed: 'left',
   }, {
     title: '划线价',
     dataIndex: 'market_price',
     key: 'market_price',
-    fixed: 'left',
   },{
       title: '价格',
       dataIndex: 'final_price',
       key: 'final_price',
-      fixed: 'left',
   }, {
       title: '商家',
       dataIndex: 'shop_name',
       key: 'shop_name',
-      fixed: 'left',
   },
   {
     title: '佣金比例',
     dataIndex: 'tb_max_commission_rate',
     key: 'tb_max_commission_rate',
-    className: 'text-monospace',
-    fixed: 'left',
+    className: 'text-monospace'
 }, {
   title: '总销量',
   dataIndex: 'duration_volume',
   key: 'duration_volume',
-  fixed: 'left',
 },{
     title: '直播销量',
     dataIndex: 'duration_live_volume',

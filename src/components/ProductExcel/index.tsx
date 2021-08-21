@@ -63,7 +63,6 @@ function ProductExcel() {
       debugger
       console.log('loading', list.length <= maxCount)
       if(isExcel) {
-        console.log('loading======', isExcel)
         setLoading(true)
         isExcel = false
         const productList = list.map((item:any) => {
