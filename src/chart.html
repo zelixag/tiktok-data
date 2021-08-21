@@ -1,0 +1,23 @@
+<svg className="line-chart"></svg>
+<script src="https://cdn.jsdelivr.net/npm/chart.xkcd@1.1/dist/chart.xkcd.min.js"></script>
+<script>
+  const svg = document.querySelector('.line-chart')
+
+  const lineChart = new chartXkcd.Line(svg, {
+    title: '面膜细分品类转化率', // optional
+    xLabel: '商品名称', // optional
+    yLabel: '% 转化率', // optional
+    data: {
+      labels: ['兰研美妆', 'AHC', '香姐美妆', '欧佩', '植美村','蓓慕'],
+      datasets: [{
+        label: '总销量',
+        data: [5.33, 5.72, 1.54, 9.9, 5.01, 20.23],
+      }],
+    },
+    options: { // optional
+      yTickCount: 3,
+      dotSize: 1,
+      legendPosition: chartXkcd.config.positionType.upLeft
+    }
+  });
+</script>

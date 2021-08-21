@@ -10,6 +10,7 @@ const { TabPane } = Tabs;
 function App() {
   useEffect(() => {
     login();
+    document.getElementById('chart')?.contentWindow.document.getElementById('修改样式的Id');
   }, [])
   return (
     <div className="App">
@@ -29,8 +30,26 @@ function App() {
         </Collapse>
         </TabPane>
         <TabPane tab="数据统计与分析" key="2">
-          <div style={{width: '1440px'}}>
-            Content of Tab Pane 2
+          <div id="chart" style={{width: '1440px'}}>
+            <iframe height="300" style={{width: '100%'}} scrolling="no" title="" src="https://codepen.io/peiwen114/embed/vYZBLYL?default-tab=result" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
+              See the Pen <a href=" ">
+              </a > by peiwen (<a href="https://codepen.io/peiwen114">@peiwen114</a >)
+              on <a href="https://codepen.io">CodePen</a >.
+            </iframe>
+          </div>
+          <div id="chart2" style={{width: '1440px'}}>
+          <iframe height="300" style={{width: '100%'}} scrolling="no" title="pic1" src="https://codepen.io/peiwen114/embed/YzQKwNW?default-tab=result" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
+            See the Pen <a href=" ">
+            pic1</a > by peiwen (<a href="https://codepen.io/peiwen114">@peiwen114</a >)
+            on <a href="https://codepen.io">CodePen</a >.
+          </iframe>
+          </div>
+          <div>
+          <iframe height="300" style={{width: '100%'}} scrolling="no" title="" src="https://codepen.io/peiwen114/embed/wvewMdp?default-tab=result" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
+            See the Pen <a href=" ">
+            </a > by peiwen (<a href="https://codepen.io/peiwen114">@peiwen114</a >)
+            on <a href="https://codepen.io">CodePen</a >.
+          </iframe>
           </div>
         </TabPane>
       </Tabs>
