@@ -1,10 +1,9 @@
 import { Button, Input, Select, Table } from "antd"
-import { throttle } from "lodash"
 import React, { useEffect, useState } from "react"
 import { getAwemeOverview, getStarCategory, getTalentInfo, getTalentList, getTalentLiveOverview, productAnalysis } from "../../services/talentServices"
 import { exportExcel } from "../../utils/excel"
 import { talentBuyProductHeaders, talentHeaders } from "../../utils/tableHeader"
-const MAX_COUNT = 30
+const MAX_COUNT = 100
 const TalentSearch = () => {
   const [loading, setLoading] = useState(true)
   const [list, setList] = useState<any[]>([])
@@ -14,6 +13,7 @@ const TalentSearch = () => {
   const [sort, setSort] = useState<string>('')
   const [starCategory, setStarCategory] = useState<string>('')
   const [starCategoryList, setStarCategoryList] = useState<any[]>([])
+  const [maxCount, setMaxCount] = useState<number>(MAX_COUNT)
   const searchParams = {
     page:1,
     reputation_level:-1,
@@ -72,7 +72,7 @@ const TalentSearch = () => {
     })()
   }, [])
   useEffect(() => {
-    if(list.length >0 && (list.length === total || total === 500) || list.length === MAX_COUNT) {
+    if(list.length >0 && (list.length === total || total === 500) || list.length === maxCount) {
       const fileName = starCategory ?`关于【${starCategory}】达人列表.xlsx` : '达人列表.xlsx'
       exportExcel(talentHeaders, list, fileName);
       if(talentBuyProductList?.length) {
@@ -119,7 +119,7 @@ const TalentSearch = () => {
       setIds(talentList.map(item => item.unique_id))
 
       for (let i = 0; i < talentList.length; i++) {
-        if(i === MAX_COUNT) break;
+        if(i === maxCount) break;
         getDetail(talentList[i].author_id, talentList[i].unique_id)
       }
     }
@@ -128,14 +128,20 @@ const TalentSearch = () => {
     <h3>类型搜索搜索达人信息</h3>
       <div className="search-form">
       <div className="form-select-day form-item">
+          <span>搜索条数:</span>
+          <Input style={{ width: 90, marginRight: 16 }} defaultValue={MAX_COUNT} placeholder="请输入最大条数" onChange={(event) => {
+            setMaxCount(+event.target.value)
+          }}></Input>
+        </div>
+      <div className="form-select-day form-item">
           <span>排序:</span>
-          <Select options={[{label: '粉丝增量',value: "follower_count"}, {label: '近30日直播场均销售额',value: "live_average_amount_30"}]} style={{ width: 320, marginRight: 16 }} onChange={(value: any) => {
+          <Select options={[{label: '粉丝增量',value: "inc_follower"}, {label: '近30日直播场均销售额',value: "live_average_amount_30"}]} style={{ width: 320, marginRight: 16 }} onChange={(value: any) => {
             setSort(value)
           }}></Select>
         </div>
         <div className="form-select-day form-item">
           <span>类型:</span>
-          <Select options={starCategoryList} style={{ width: 320, marginRight: 16 }} onChange={(value: any) => {
+          <Select options={starCategoryList} style={{ width: 220, marginRight: 16 }} onChange={(value: any) => {
             setStarCategory(value)
           }}></Select>
         </div>
