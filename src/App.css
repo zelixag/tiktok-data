@@ -4,6 +4,7 @@
   display: flex;
   justify-content: center;
   flex-direction: column;
+  align-items: center;
 }
 
 .App-logo {
@@ -23,6 +24,11 @@
 
 .App-link {
   color: #61dafb;
+}
+.login-wrapper {
+  display: flex;
+  align-items: center;
+  flex: 1;
 }
 
 @keyframes App-logo-spin {

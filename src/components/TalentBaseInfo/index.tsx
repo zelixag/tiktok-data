@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react"
 import { getAwemeOverview, getStarCategory, getTalentInfo, getTalentList, getTalentLiveOverview, productAnalysis } from "../../services/talentServices"
 import { exportExcel } from "../../utils/excel"
 import { talentBuyProductHeaders, talentHeaders } from "../../utils/tableHeader"
-const MAX_COUNT = 100
+const MAX_COUNT = 100000
 const TalentSearch = () => {
   const [loading, setLoading] = useState(true)
   const [list, setList] = useState<any[]>([])
@@ -72,7 +72,7 @@ const TalentSearch = () => {
     })()
   }, [])
   useEffect(() => {
-    if(list.length >0 && (list.length === total || total === 500) || list.length >= maxCount) {
+    if(list.length >0 && (list.length === total)) {
       const fileName = starCategory ?`关于【${starCategory}】达人列表.xlsx` : '达人列表.xlsx'
       exportExcel(talentHeaders, list, fileName);
       if(talentBuyProductList?.length) {
@@ -84,7 +84,7 @@ const TalentSearch = () => {
   let talentList: any[] = []
   let time = 0
   const getDetail = (author_id: string, unique_id: string) => {
-    time += 1000
+    time += 3000
     setTimeout(async () => {
       const info = await getTalentInfo(author_id)
       const liveOverview = await getTalentLiveOverview(author_id)
@@ -110,7 +110,7 @@ const TalentSearch = () => {
     const {page, totalCount, totalPage } = data.page_info
     !total && setTotal(totalCount)
     talentList = talentList.concat(data.list)
-    if(totalCount > 50 && nextPage < (totalPage > 5 ? 5 : totalPage)) {
+    if((totalCount > 50 && nextPage < totalPage) && talentList.length <= maxCount) {
       setTimeout(() => {
         search(page + 1)
       }, 1000)

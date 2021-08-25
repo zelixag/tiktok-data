@@ -1,24 +1,32 @@
 import { Collapse, Tabs } from 'antd';
 import React, { useEffect, useState } from 'react'
 import './App.css'
+import Login from './components/Login';
 import ProductExcel from './components/ProductExcel/index';
+import TalentBaseInfo from './components/TalentBaseInfo';
 import TalentByType from './components/TalentByType';
 import TalentSearch from './components/TalentIdBatchSearch';
-import Login from './pages/login';
-import { login } from './services/userServices';
+import Cookies from 'js-cookie';
+
 const { Panel } = Collapse;
 const { TabPane } = Tabs;
 function App() {
+  const [isLogin, setIsLogin] = useState(false)
   useEffect(() => {
-    login();
-  }, [])
+    setIsLogin(!!Cookies.get('LOGIN-TOKEN-FORSNS'))
+    setInterval(() => {
+      setIsLogin(!!Cookies.get('LOGIN-TOKEN-FORSNS'))
+    }, 5000)
+  }, [isLogin])
   return (
     <div className="App">
-      <div>
-        <Login></Login>
-      </div>
-      <div> 
-        <h1>抖Data</h1>
+      <h1>抖Data </h1>
+      {!isLogin && <div className="login-wrapper">
+        <Login login={(value) => {
+          setIsLogin(value)
+        }}></Login>
+      </div>}
+      {isLogin && <div> 
         <Tabs defaultActiveKey="1">
           <TabPane tab="数据导出" key="1">
           <Collapse defaultActiveKey={['1', '2', '3']} >
@@ -30,6 +38,9 @@ function App() {
             </Panel>
             <Panel showArrow={false} header="基于达人分类达人信息导出" key="3">
               <TalentByType/>
+            </Panel>
+            <Panel showArrow={false} header="达人关键信息导出" key="3">
+              <TalentBaseInfo/>
             </Panel>
           </Collapse>
           </TabPane>
@@ -53,7 +64,8 @@ function App() {
             </div>
           </TabPane>
         </Tabs>
-      </div>
+      </div>}
+
     </div>
   )
 }

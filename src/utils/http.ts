@@ -1,4 +1,5 @@
 import fetch from "isomorphic-fetch";
+import Cookies from "js-cookie";
 import merge from "lodash/merge";
 import { login } from "../services/userServices";
 import json2formData from "./json2formData";
@@ -28,7 +29,7 @@ function http(url: string, options: any) {
     // 业务数据正常返回
     return response.json().then(function (res) {
       if (res.errCode) {
-        login();
+        Cookies.set('LOGIN-TOKEN-FORSNS', '', {});
       }
       return res.data;
     });
