@@ -72,7 +72,7 @@ const TalentSearch = () => {
     })()
   }, [])
   useEffect(() => {
-    if(list.length >0 && (list.length === total)) {
+    if(list.length >0 && (list.length === total) || list.length === maxCount) {
       const fileName = starCategory ?`关于【${starCategory}】达人列表.xlsx` : '达人列表.xlsx'
       exportExcel(talentHeaders, list, fileName);
       if(talentBuyProductList?.length) {
