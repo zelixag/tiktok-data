@@ -72,7 +72,7 @@ const TalentSearch = () => {
     })()
   }, [])
   useEffect(() => {
-    if(list.length >0 && (list.length === total || total === 500) || list.length >= maxCount) {
+    if(list.length >0 && (list.length === total) || list.length >= maxCount) {
       const fileName = starCategory ?`关于【${starCategory}】达人列表.xlsx` : '达人列表.xlsx'
       exportExcel(talentHeaders, list, fileName);
       if(talentBuyProductList?.length) {
@@ -110,7 +110,7 @@ const TalentSearch = () => {
     const {page, totalCount, totalPage } = data.page_info
     !total && setTotal(totalCount)
     talentList = talentList.concat(data.list)
-    if(totalCount > 50 && nextPage < (totalPage > 5 ? 5 : totalPage)) {
+    if((totalCount > 50 && nextPage < totalPage) && talentList.length <= maxCount) {
       setTimeout(() => {
         search(page + 1)
       }, 1000)
@@ -147,7 +147,7 @@ const TalentSearch = () => {
         </div>
         <Button loading={!loading} type="primary" onClick={() =>{
           search(0)
-        }}>{loading ? '导出表格': '请稍等一会儿，表格制作中'}</Button>
+        }}>{loading ? '导出表格': `请稍等一会儿，表格已经完成${list.length/maxCount * 100}%`}</Button>
       </div>
       <div style={{marginTop: 24}}>
         <h3>预览表格</h3>

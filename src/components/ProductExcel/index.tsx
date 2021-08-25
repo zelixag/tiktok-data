@@ -116,7 +116,7 @@ function ProductExcel() {
         </div>
         <Button loading={!loading} type="primary" onClick={() =>{
           search(1)
-        }}>{loading ? '导出表格': '请稍等一会儿，表格制作中'}</Button>
+        }}>{loading ? '导出表格': `请稍等一会儿，表格已经完成${pList.length/maxCount * 100}%`}</Button>
       </div>
       <div style={{marginTop: 24}}>
         <h3>预览表格</h3>
