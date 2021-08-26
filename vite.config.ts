@@ -15,6 +15,8 @@ export default defineConfig({
     ],
   })],
   server:{
+    port: 5010,
+    open: true,
     proxy:{
 	//这里是通过请求/api 来转发到 https://api.pingping6.com/
 	//假如你要请求https://api.*.com/a/a

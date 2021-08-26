@@ -4,6 +4,7 @@ import merge from "lodash/merge";
 import { login } from "../services/userServices";
 import json2formData from "./json2formData";
 import parseObjectToUrlParams from "./parseObjectToUrlParams";
+import { message } from 'antd';
 
 let events = {};
 
@@ -29,7 +30,9 @@ function http(url: string, options: any) {
     // 业务数据正常返回
     return response.json().then(function (res) {
       if (res.errCode) {
+        message.error(res.errMsg)
         Cookies.set('LOGIN-TOKEN-FORSNS', '', {});
+        throw new Error(res)
       }
       return res.data;
     });
