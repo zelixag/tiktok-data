@@ -159,7 +159,7 @@ const TalentSearch = () => {
         }}>{loading ? '导出表格': `请稍等一会儿，表格已经完成${(list.length/maxCount * 100).toFixed(2)}%`}</Button>
         <Button style={{marginLeft: 16}} type="primary" onClick={() =>{
           setFailure(true)
-        }}>{`现在已经完成${list.length}条，点击可以马上到处`}</Button>
+        }}>{`现在已经完成${list.length}条，点击可以马上导出数据`}</Button>
       </div>
       <div style={{marginTop: 24}}>
         <h3>预览表格</h3>
