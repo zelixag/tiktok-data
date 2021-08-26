@@ -1,5 +1,6 @@
-import { Button, Input, Select, Table } from "antd"
+import { Button, Cascader, Input, Select, Table } from "antd"
 import React, { useEffect, useState } from "react"
+import { getProductCategory } from "../../services/productServices"
 import { getAwemeOverview, getStarCategory, getTalentInfo, getTalentList, getTalentLiveOverview, productAnalysis } from "../../services/talentServices"
 import { exportExcel } from "../../utils/excel"
 import { talentBaseInfoHeaders, talentBuyProductHeaders, talentHeaders } from "../../utils/tableHeader"
@@ -10,11 +11,11 @@ const TalentSearch = () => {
   const [talentBuyProductList, setTalentBuyProductList] = useState<any[]>([])
   const [ids, setIds] = useState<string[]>([])
   const [total, setTotal] = useState<number>(0)
-  const [sort, setSort] = useState<string>('')
   const [starCategory, setStarCategory] = useState<string>('')
+  const [categoryv, setCategoryv] = useState<string>('')
   const [starCategoryList, setStarCategoryList] = useState<any[]>([])
   const [maxCount, setMaxCount] = useState<number>(MAX_COUNT)
-  const searchParams = {
+  const [searchParams, setSearchParams] = useState<any>({
     page:1,
     reputation_level:-1,
     star_category:undefined,
@@ -42,55 +43,37 @@ const TalentSearch = () => {
     order_by:'desc',
     size:100,
     similar_author_id:undefined,
-  }
-  const talentBuyProductParams = {
-    author_id: 2862739114691172,
-    sort: 'amount',
-    keyword: '',
-    page: 1,
-    size: 100,
-    platform: undefined,
-    product_type: 0,
-    price: undefined,
-    brand_code: undefined,
-    big_category: undefined,
-    first_category: undefined,
-    second_category: undefined,
-    orderby: 'desc',
-    start_date: '2021-07-23',
-    end_date: '2021-08-21',
-  }
+  })
+  const [category, setCategory] = useState<any[]>([])
   useEffect(() => {
     (async () => {
       const starCategory = await getStarCategory()
-      setStarCategoryList(starCategory.map(((category: any) => {
-        return {
-          label: category.id,
-          value: category.id,
-        }
-      })))
+      const productCategory = await getProductCategory('all')
+      setCategory(productCategory)
+      setStarCategoryList(starCategory)
     })()
   }, [])
-  useEffect(() => {
-    if(list.length >0 && (list.length === total) || list.length === maxCount) {
-      const fileName = starCategory ?`关于【${starCategory}】达人列表.xlsx` : '达人列表.xlsx'
-      exportExcel(talentBaseInfoHeaders, list, fileName);
-      setLoading(true)
-    }
-  }, [total, list])
   let talentList: any[] = []
   const search = async (nextPage:number) => {
     setLoading(false)
-    let data = await getTalentList({...searchParams, page: nextPage,star_category:starCategory, sort })
+    let data = await getTalentList({...searchParams, page: nextPage })
     if(!data) return;
     const {page, totalCount, totalPage } = data.page_info
     !total && setTotal(totalCount)
     talentList = talentList.concat(data.list)
     setList(talentList)
+    if(totalCount === 0) {
+      setLoading(true)
+      return
+    }
     if((totalCount > 50 && nextPage < totalPage) && talentList.length <= maxCount) {
       setTimeout(() => {
         search(page + 1)
       }, 1000)
+    } else if(talentList.length >0 && (talentList.length === total) || talentList.length >= maxCount) {
+      setLoading(true)
+      const fileName = starCategory || categoryv ?`关于【${starCategory}${categoryv ? '/' + categoryv: ''}】达人列表.xlsx` : '达人列表.xlsx'
+      exportExcel(talentBaseInfoHeaders, talentList, fileName);
     }
   }
   return <div>
@@ -105,18 +88,26 @@ const TalentSearch = () => {
       <div className="form-select-day form-item">
           <span>排序:</span>
           <Select options={[{label: '粉丝增量',value: "inc_follower"}, {label: '近30日直播场均销售额',value: "live_average_amount_30"}]} style={{ width: 320, marginRight: 16 }} onChange={(value: any) => {
-            setSort(value)
+            setSearchParams((params: any) => {return {...params, sort: value}})
           }}></Select>
         </div>
         <div className="form-select-day form-item">
-          <span>类型:</span>
-          <Select options={starCategoryList} style={{ width: 220, marginRight: 16 }} onChange={(value: any) => {
-            setStarCategory(value)
-          }}></Select>
+          <span>选择分类:</span>
+          <Cascader fieldNames={{label: 'cat_name', value: 'id', children: 'sub_categories'}} options={starCategoryList} style={{ width: 280, marginRight: 16 }} placeholder="请输入商品链接、标题或者关键词" onChange={(value) => {
+            setCategoryv(value.toString().replace(/,/g, '/'))
+            setSearchParams((params: any) => {return {...params, star_category: value[0], star_sub_category: value[1]}})
+          }}></Cascader>
+        </div>
+        <div className="form-select-day form-item">
+          <span>带货分类:</span>
+          <Cascader fieldNames={{label: 'cat_name', value: 'id', children: 'sub_categories'}} options={category} style={{ width: 280, marginRight: 16 }} placeholder="请输入商品链接、标题或者关键词" onChange={(value) => {
+            setStarCategory(value.toString().replace(/,/g, '/'))
+            setSearchParams((params: any) => {return {...params, goods_cat: value.toString()}})
+          }}></Cascader>
         </div>
         <Button loading={!loading} type="primary" onClick={() =>{
           search(0)
-        }}>{loading ? '导出表格': `请稍等一会儿，表格已经完成${(list.length/maxCount * 100).toFixed(2)}%`}</Button>
+        }}>{loading ? '导出表格': `请稍等一会儿，表格已经完成${(list.length/maxCount * 100).toFixed(2)}%`}</Button> <span>总计: {total} </span>
       </div>
       <div style={{marginTop: 24}}>
         <h3>预览表格</h3>
