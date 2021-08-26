@@ -133,7 +133,13 @@ export const talentHeaders = [
     className: "text-monospace",
   },
   {
-    title: "近30天直播场均销售额(件)",
+    title: "近三十天销售额（元）",
+    dataIndex: "avg_live_volume",
+    key: "avg_live_volume",
+    className: "text-monospace",
+  },
+  {
+    title: "近30天直播场均销售额(元)",
     dataIndex: "avg_live_amount",
     key: "avg_live_amount",
     className: "text-monospace",
@@ -158,8 +164,8 @@ export const talentHeaders = [
   },
   {
     title: "近30天视频预估销售额",
-    dataIndex: "aweme_digg_follower_ration",
-    key: "aweme_digg_follower_ration",
+    dataIndex: "product_aweme_amount_30",
+    key: "product_aweme_amount_30",
     className: "text-monospace",
   },
   {
@@ -178,6 +184,12 @@ export const talentHeaders = [
     title: "近30天直播场次",
     dataIndex: "month_live_count",
     key: "month_live_count",
+    className: "text-monospace",
+  },
+  {
+    title: "近30天GMV",
+    dataIndex: "GMV",
+    key: "GMV",
     className: "text-monospace",
   },
 ];

@@ -107,7 +107,7 @@ const TalentSearch = () => {
         </div>
         <Button loading={!loading} type="primary" onClick={() =>{
           search(0)
-        }}>{loading ? '导出表格': `请稍等一会儿，表格已经完成${(list.length/maxCount * 100).toFixed(2)}%`}</Button> <span>总计: {total} </span>
+        }}>{loading ? '导出表格': `请稍等一会儿，表格已经完成${(list.length/(maxCount > total ? total : maxCount ) * 100).toFixed(2)}%`}</Button> <span>总计: {total} </span>
       </div>
       <div style={{marginTop: 24}}>
         <h3>预览表格</h3>

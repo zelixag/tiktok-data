@@ -99,7 +99,7 @@ const TalentSearch = () => {
         if(info?.reputation) {
           info.reputationScore = info.reputation.score
         }
-        setList(list => {return [...list, ...[{...info, ...liveOverview, ...awemeOverview}]]})
+        setList(list => {return [...list, ...[{...info, ...liveOverview, ...awemeOverview, GMV: info.month_live_amount + awemeOverview.product_aweme_amount_30}]]})
 
         if(!productData?.list?.length) return
         const buyProductList = productData.list.map((item:any) => {
