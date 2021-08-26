@@ -63,7 +63,26 @@ export const productHeaders = [
     key: "duration_video_count",
   },
 ];
-
+export const talentBaseInfoHeaders = [
+  {
+    title: "Uid",
+    dataIndex: "author_id",
+    key: "author_id",
+    className: "text-monospace",
+  },
+  {
+    title: "抖音ID",
+    dataIndex: "unique_id",
+    key: "unique_id",
+    className: "text-monospace",
+  },
+  {
+    title: "达人",
+    dataIndex: "nickname",
+    key: "nickname",
+    className: "text-monospace",
+  }
+];
 export const talentHeaders = [
   {
     title: "Uid",

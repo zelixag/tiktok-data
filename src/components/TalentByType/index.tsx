@@ -2,7 +2,7 @@ import { Button, Input, Select, Table } from "antd"
 import React, { useEffect, useState } from "react"
 import { getAwemeOverview, getStarCategory, getTalentInfo, getTalentList, getTalentLiveOverview, productAnalysis } from "../../services/talentServices"
 import { exportExcel } from "../../utils/excel"
-import { talentBuyProductHeaders, talentHeaders } from "../../utils/tableHeader"
+import { talentBaseInfoHeaders, talentBuyProductHeaders, talentHeaders } from "../../utils/tableHeader"
 const MAX_COUNT = 100
 const TalentSearch = () => {
   const [loading, setLoading] = useState(true)
@@ -72,37 +72,13 @@ const TalentSearch = () => {
     })()
   }, [])
   useEffect(() => {
-    if(list.length >0 && (list.length === total) || list.length >= maxCount) {
+    if(list.length >0 && (list.length === total) || list.length === maxCount) {
       const fileName = starCategory ?`关于【${starCategory}】达人列表.xlsx` : '达人列表.xlsx'
-      exportExcel(talentHeaders, list, fileName);
-      if(talentBuyProductList?.length) {
-        exportExcel(talentBuyProductHeaders, talentBuyProductList, starCategory ?`关于【${starCategory}】达人带货列表.xlsx` : '达人带货列表.xlsx');
-      }
+      exportExcel(talentBaseInfoHeaders, list, fileName);
       setLoading(true)
     }
-  }, [total, list, talentBuyProductList])
+  }, [total, list])
   let talentList: any[] = []
-  let time = 0
-  const getDetail = (author_id: string, unique_id: string) => {
-    time += 5000
-    setTimeout(async () => {
-      const info = await getTalentInfo(author_id)
-      const liveOverview = await getTalentLiveOverview(author_id)
-      const awemeOverview = await getAwemeOverview(author_id)
-      let productData = await productAnalysis({...talentBuyProductParams, author_id })
-      if(info?.reputation) {
-        info.reputationScore = info.reputation.score
-      }
-      setList(list => {return [...list, ...[{...info, ...liveOverview, ...awemeOverview}]]})
-
-      if(!productData?.list?.length) return
-      const buyProductList = productData.list.map((item:any) => {
-        item.unique_id = unique_id
-        return item
-      })
-      setTalentBuyProductList(pList => {return [...pList, ...buyProductList]} )
-    }, time)
-  }
   const search = async (nextPage:number) => {
     setLoading(false)
     let data = await getTalentList({...searchParams, page: nextPage,star_category:starCategory, sort })
@@ -110,18 +86,11 @@ const TalentSearch = () => {
     const {page, totalCount, totalPage } = data.page_info
     !total && setTotal(totalCount)
     talentList = talentList.concat(data.list)
+    setList(talentList)
     if((totalCount > 50 && nextPage < totalPage) && talentList.length <= maxCount) {
       setTimeout(() => {
         search(page + 1)
       }, 1000)
-    } else {
-      const ids = talentList.map(item => item.author_id)
-      setIds(talentList.map(item => item.unique_id))
-
-      for (let i = 0; i < talentList.length; i++) {
-        if(i === maxCount) break;
-        getDetail(talentList[i].author_id, talentList[i].unique_id)
-      }
     }
   }
   return <div>
@@ -151,7 +120,7 @@ const TalentSearch = () => {
       </div>
       <div style={{marginTop: 24}}>
         <h3>预览表格</h3>
-      <Table dataSource={list} columns={talentHeaders} />
+      <Table dataSource={list} columns={talentBaseInfoHeaders} />
       </div>
       <div style={{marginTop: 24,width: 500}}>
         <h3>抖音IDS</h3>
