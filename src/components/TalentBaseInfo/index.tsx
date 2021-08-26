@@ -80,9 +80,12 @@ const TalentSearch = () => {
       if(talentBuyProductList?.length) {
         exportExcel(talentBuyProductHeaders, talentBuyProductList, starCategory ?`关于【${starCategory}】达人带货列表.xlsx` : '达人带货列表.xlsx');
       }
-      setLoading(true)
+      if(!failure){
+        setLoading(true)
+      }
+      setFailure(false)
     }
-  }, [total, list, talentBuyProductList])
+  }, [total, list, talentBuyProductList, failure])
   let talentList: any[] = []
   let time = 0
   const getDetail = (author_id: string, unique_id: string) => {
@@ -153,7 +156,10 @@ const TalentSearch = () => {
         </div>
         <Button loading={!loading} type="primary" onClick={() =>{
           search(0)
-        }}>{loading ? '导出表格': `请稍等一会儿，表格已经完成${list.length/maxCount * 100}%`}</Button>
+        }}>{loading ? '导出表格': `请稍等一会儿，表格已经完成${(list.length/maxCount * 100).toFixed(2)}%`}</Button>
+        <Button style={{marginLeft: 16}} type="primary" onClick={() =>{
+          setFailure(true)
+        }}>{`现在已经完成${list.length}条，点击可以马上到处`}</Button>
       </div>
       <div style={{marginTop: 24}}>
         <h3>预览表格</h3>
