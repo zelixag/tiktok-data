@@ -89,7 +89,7 @@ const TalentSearch = () => {
   let talentList: any[] = []
   let time = 0
   const getDetail = (author_id: string, unique_id: string) => {
-    time += 5000
+    time += 10000
     setTimeout(async () => {
       try {
         const info = await getTalentInfo(author_id)
