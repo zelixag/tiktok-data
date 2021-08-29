@@ -225,6 +225,18 @@ export const brandTalentHeaders = [
     className: "text-monospace",
   },
   {
+    title: "最早视频时间",
+    dataIndex: "most_aweme_time",
+    key: "most_aweme_time",
+    className: "text-monospace",
+  },
+  {
+    title: "最早直播时间",
+    dataIndex: "most_room_time",
+    key: "most_room_time",
+    className: "text-monospace",
+  },
+  {
     title: "推广商品数",
     dataIndex: "week_count",
     key: "week_count",

@@ -1,7 +1,8 @@
 import { Button, Cascader, Input, Select, Table } from "antd"
+import dayjs from "dayjs"
 import Cookies from "js-cookie"
 import React, { useEffect, useState } from "react"
-import { getBrandList, getBrandTalentList } from "../../services/brandService"
+import { getBrandList, getBrandTalentAwemesList, getBrandTalentList, getBrandTalentRoomsList } from "../../services/brandService"
 import { getProductCategory } from "../../services/productServices"
 import { getAwemeOverview, getStarCategory, getTalentInfo, getbrandList, getTalentLiveOverview, productAnalysis } from "../../services/talentServices"
 import { exportExcel } from "../../utils/excel"
@@ -39,16 +40,27 @@ const BrandbrandList = () => {
     size: 100,
     sort: 'volume',
     order_by: 'asc',
-    start_time: '2021-05-31',
-    end_time: '2021-08-28',
+    start_time: dayjs().subtract(90, 'day').format('YYYY-MM-DD'),
+    end_time: dayjs().format('YYYY-MM-DD'),
+  }
+  const brandTalentAwemesAndRoomParams = {
+    author_id: '',
+    brand_code: '',
+    page: 1,
+    size: 100,
+    start_time: dayjs().subtract(90, 'day').format('YYYY-MM-DD'),
+    end_time: dayjs().format('YYYY-MM-DD'),
   }
   useEffect(() => {
     if(list.length >0 && (list.length === total) || list.length === maxCount || failure) {
       const fileName ='品牌达人列表.xlsx'
-      exportExcel(talentHeaders, list, fileName);
+      exportExcel(brandTalentHeaders, list, fileName);
+      if(!failure){
+        setLoading(true)
+      }
+      setFailure(false)
     }
   }, [total, list, failure])
-  let brandList: any[] = []
   let talentList: any[] = []
   let time = 0
   const getDetail = async (brandCode: string, nextPage: number) => {
@@ -57,6 +69,16 @@ const BrandbrandList = () => {
     const data = await getBrandTalentList({...brandTalentParams, page: nextPage, brand_code: brandCode})
     if(!data) return;
     const {page, totalCount, totalPage } = data.page_info
+    for(let i = 0; i < data.list.length; i++) {
+      let talent = data.list[i]
+      const awemeData = await getBrandTalentAwemesList({...brandTalentAwemesAndRoomParams, brand_code: brandCode, author_id: talent.author_id});
+      const roomsData = await getBrandTalentRoomsList({...brandTalentAwemesAndRoomParams, brand_code: brandCode, author_id: talent.author_id})
+      const a = awemeData.list.pop();
+      const r = roomsData.list.pop();
+      const timestamp = new Date().getTime()
+      talent.most_aweme_time = a ? dayjs(a.aweme_create_time ?  a.aweme_create_time*1000:'').format('YYYY-MM-DD'):''
+      talent.most_room_time = r ? dayjs(r.begin_time ? r.begin_time*1000 :'').format('YYYY-MM-DD'):''
+    }
     talentList = talentList.concat(data.list)
     setList(talentList)
     if(totalCount > 50 && nextPage < totalPage) {
@@ -87,7 +109,7 @@ const BrandbrandList = () => {
           }}></Input>
         </div>
         <Button loading={!loading} type="primary" onClick={() =>{
-          search(0)
+          search()
         }}>{loading ? '导出表格': `请稍等一会儿，表格已经完成${(list.length/maxCount * 100).toFixed(2)}%`}</Button>
         <Button style={{marginLeft: 16}} type="primary" onClick={() =>{
           setFailure(true)

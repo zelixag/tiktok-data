@@ -30,7 +30,7 @@ function App() {
       {isLogin && <div style={{width: '1440px'}}> 
         <Tabs defaultActiveKey="1">
           <TabPane tab="数据导出" key="1">
-          <Collapse defaultActiveKey={['1', '2', '3']} >
+          <Collapse defaultActiveKey={['1', '2', '3', '4', '5']} >
             <Panel showArrow={false} header="商品Excel导出" key="1">
               <ProductExcel />
             </Panel>
@@ -40,10 +40,10 @@ function App() {
             <Panel showArrow={false} header="基于达人分类达人信息导出" key="3">
               <TalentByType/>
             </Panel>
-            <Panel showArrow={false} header="达人关键信息导出" key="3">
+            <Panel showArrow={false} header="达人关键信息导出" key="4">
               <TalentBaseInfo/>
             </Panel>
-            <Panel showArrow={false} header="品牌-达人信息" key="3">
+            <Panel showArrow={false} header="品牌-达人信息" key="5">
               <BrandTalentList/>
             </Panel>
           </Collapse>
