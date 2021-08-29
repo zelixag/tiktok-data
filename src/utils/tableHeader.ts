@@ -193,6 +193,68 @@ export const talentHeaders = [
     className: "text-monospace",
   },
 ];
+export const brandTalentHeaders = [
+  {
+    title: "Uid",
+    dataIndex: "author_id",
+    key: "author_id",
+    className: "text-monospace",
+  },
+  {
+    title: "抖音ID",
+    dataIndex: "unique_id",
+    key: "unique_id",
+    className: "text-monospace",
+  },
+  {
+    title: "达人",
+    dataIndex: "nickname",
+    key: "nickname",
+    className: "text-monospace",
+  },
+  {
+    title: "总粉丝数",
+    dataIndex: "follower_count",
+    key: "follower_count",
+    className: "text-monospace",
+  },
+  {
+    title: "口碑",
+    dataIndex: "reputation_score",
+    key: "reputation_score",
+    className: "text-monospace",
+  },
+  {
+    title: "推广商品数",
+    dataIndex: "week_count",
+    key: "week_count",
+    className: "text-monospace",
+  },
+  {
+    title: "关联视频",
+    dataIndex: "aweme_count",
+    key: "aweme_count",
+    className: "text-monospace",
+  },
+  {
+    title: "关联直播",
+    dataIndex: "live_count",
+    key: "live_count",
+    className: "text-monospace",
+  },
+  {
+    title: "预估销量",
+    dataIndex: "volume",
+    key: "volume",
+    className: "text-monospace",
+  },
+  {
+    title: "预估销售额",
+    dataIndex: "amount",
+    key: "amount",
+    className: "text-monospace",
+  }
+];
 export const talentBuyProductHeaders = [
   {
     title: "抖音ID",

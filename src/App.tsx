@@ -7,6 +7,7 @@ import TalentBaseInfo from './components/TalentBaseInfo';
 import TalentByType from './components/TalentByType';
 import TalentSearch from './components/TalentIdBatchSearch';
 import Cookies from 'js-cookie';
+import BrandTalentList from './components/BrandTalentList';
 
 const { Panel } = Collapse;
 const { TabPane } = Tabs;
@@ -26,7 +27,7 @@ function App() {
           setIsLogin(value)
         }}></Login>
       </div>}
-      {isLogin && <div> 
+      {isLogin && <div style={{width: '1440px'}}> 
         <Tabs defaultActiveKey="1">
           <TabPane tab="数据导出" key="1">
           <Collapse defaultActiveKey={['1', '2', '3']} >
@@ -41,6 +42,9 @@ function App() {
             </Panel>
             <Panel showArrow={false} header="达人关键信息导出" key="3">
               <TalentBaseInfo/>
+            </Panel>
+            <Panel showArrow={false} header="品牌-达人信息" key="3">
+              <BrandTalentList/>
             </Panel>
           </Collapse>
           </TabPane>
