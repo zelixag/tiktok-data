@@ -9,6 +9,7 @@ const MAX_COUNT = 100000
 const TalentSearch = () => {
   const [loading, setLoading] = useState(true)
   const [list, setList] = useState<any[]>([])
+  const [keyword, setKeyword] = useState<string>('')
   const [talentBuyProductList, setTalentBuyProductList] = useState<any[]>([])
   const [ids, setIds] = useState<string[]>([])
   const [total, setTotal] = useState<number>(0)
@@ -135,6 +136,13 @@ const TalentSearch = () => {
   }
   return <div>
     <h3>类型搜索搜索达人信息</h3>
+    <div className="form-select-day form-item">
+          <span>关键字:</span>
+          <Input style={{ width: 280, marginRight: 16 }} placeholder="请输入商品链接、标题或者关键词" onChange={(event) => {
+            setKeyword(event.target.value)
+            setSearchParams((params: any) => {return {...params, keyword: event.target.value}})
+          }}></Input>
+        </div>
       <div className="search-form">
       <div className="form-select-day form-item">
           <span>搜索最大条数:</span>
