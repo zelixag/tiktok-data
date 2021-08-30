@@ -4,7 +4,7 @@ import Cookies from "js-cookie"
 import React, { useEffect, useState } from "react"
 import { getBrandList, getBrandTalentAwemesList, getBrandTalentList, getBrandTalentRoomsList } from "../../services/brandService"
 import { getProductCategory } from "../../services/productServices"
-import { getAwemeOverview, getStarCategory, getTalentInfo, getbrandList, getTalentLiveOverview, productAnalysis } from "../../services/talentServices"
+import { getAwemeOverview, getStarCategory, getTalentInfo, getTalentLiveOverview, productAnalysis } from "../../services/talentServices"
 import { exportExcel } from "../../utils/excel"
 import { brandTalentHeaders, talentBuyProductHeaders, talentHeaders } from "../../utils/tableHeader"
 const MAX_COUNT = 100000
