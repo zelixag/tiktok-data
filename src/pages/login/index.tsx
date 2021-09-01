@@ -3,6 +3,7 @@ import "./index.less";
 import { useHistory } from "react-router-dom";
 import Login from "../../components/Login/index";
 import { cloneDeep } from "lodash";
+import Cookies from 'js-cookie';
 const initBackgroundList: {backgroundImage: string, display?: string}[] = [{
   backgroundImage:
     "url('https://img.alicdn.com/tps/TB1pfG4IFXXXXc6XXXXXXXXXXXX.jpg')",
@@ -29,7 +30,7 @@ const LoginPage = () => {
   }])
   let i = 0
   useEffect(() => {
-    isLogin && history.push("/app");
+  (isLogin || Cookies.get('LOGIN-TOKEN-FORSNS')) && history.push("/app");
     setInterval(() => {
       if(i === 3) i = 0
       const initList = cloneDeep(initBackgroundList)
