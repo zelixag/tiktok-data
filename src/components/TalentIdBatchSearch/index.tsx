@@ -93,7 +93,7 @@ const TalentByIdBatchSearch = () => {
       </div>
       <div style={{marginTop: 24}}>
         <h3>预览表格</h3>
-      <Table dataSource={list} columns={talentHeaders} />
+      <Table dataSource={list} columns={talentHeaders as any} />
       </div>
     </div>
 }

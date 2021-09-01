@@ -182,7 +182,7 @@ const TalentSearch = () => {
       </div>
       <div style={{marginTop: 24}}>
         <h3>预览表格</h3>
-      <Table dataSource={list} scroll={{ x: 1500 }} columns={talentHeaders} />
+      <Table dataSource={list} scroll={{ x: 1500 }} columns={talentHeaders as any} />
       </div>
       <div style={{marginTop: 24,width: 500}}>
         <h3>抖音IDS</h3>
