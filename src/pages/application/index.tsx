@@ -78,7 +78,15 @@ const Application = () => {
     </Menu>
   </Sider>
   <Layout>
-    <Header className="site-layout-sub-header-background" style={{ padding: 0 }} />
+    <Header className="site-layout-sub-header-background" style={{ padding: 0 }} >
+      <div style={{display: 'flex',justifyContent: 'space-between'}}>
+        <div></div>
+        <Button onClick={() => {
+          Cookies.set('LOGIN-TOKEN-FORSNS', '', {});
+          window.location.href = '/'
+        }}>登出</Button>
+      </div>
+    </Header>
     <Content style={{ margin: '24px 16px 0' }}>
       <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
         <Switch>
