@@ -82,7 +82,7 @@ const TalentByIdBatchSearch = () => {
       <div className="search-form">
         <div className="form-select-day form-item">
           <span>输入抖音id(使用英文逗号隔开):</span>
-          <Input style={{ width: 320, marginRight: 16 }} onChange={(event) => {
+          <Input style={{ width: 160, marginRight: 16 }} onChange={(event) => {
             setKeywords(event.target.value)
           }}></Input>
         </div>

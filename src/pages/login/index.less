@@ -1,12 +1,17 @@
 .page-login {
   position: relative;
-  .back {
-    bottom: 70px;
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &__form {
+    width: 520px;
+    padding: 0 31px 0 33px;
+    position: relative;
     overflow: hidden;
+    background: rgba(0,0,0,.5);
+    display: flex;
+    justify-content: center;
   }
   .back {
     bottom: 70px;
@@ -16,6 +21,7 @@
     width: 100%;
     overflow: hidden;
     height: 100%;
+    z-index: -1;
   }
   .items, .item {
     position: absolute;

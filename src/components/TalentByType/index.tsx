@@ -87,20 +87,20 @@ const TalentSearch = () => {
         </div>
       <div className="form-select-day form-item">
           <span>排序:</span>
-          <Select options={[{label: '粉丝增量',value: "inc_follower"}, {label: '近30日直播场均销售额',value: "live_average_amount_30"}]} style={{ width: 320, marginRight: 16 }} onChange={(value: any) => {
+          <Select options={[{label: '粉丝增量',value: "inc_follower"}, {label: '近30日直播场均销售额',value: "live_average_amount_30"}]} style={{ width: 180, marginRight: 16 }} onChange={(value: any) => {
             setSearchParams((params: any) => {return {...params, sort: value}})
           }}></Select>
         </div>
         <div className="form-select-day form-item">
           <span>选择分类:</span>
-          <Cascader fieldNames={{label: 'cat_name', value: 'id', children: 'sub_categories'}} options={starCategoryList} style={{ width: 280, marginRight: 16 }} placeholder="请输入商品链接、标题或者关键词" onChange={(value) => {
+          <Cascader fieldNames={{label: 'cat_name', value: 'id', children: 'sub_categories'}} options={starCategoryList} style={{ width: 180, marginRight: 16 }} placeholder="请输入商品链接、标题或者关键词" onChange={(value) => {
             setCategoryv(value.toString().replace(/,/g, '/'))
             setSearchParams((params: any) => {return {...params, star_category: value[0], star_sub_category: value[1]}})
           }}></Cascader>
         </div>
         <div className="form-select-day form-item">
           <span>带货分类:</span>
-          <Cascader fieldNames={{label: 'cat_name', value: 'id', children: 'sub_categories'}} options={category} style={{ width: 280, marginRight: 16 }} placeholder="请输入商品链接、标题或者关键词" onChange={(value) => {
+          <Cascader fieldNames={{label: 'cat_name', value: 'id', children: 'sub_categories'}} options={category} style={{ width: 180, marginRight: 16 }} placeholder="请输入商品链接、标题或者关键词" onChange={(value) => {
             setStarCategory(value.toString().replace(/,/g, '/'))
             setSearchParams((params: any) => {return {...params, goods_cat: value.toString()}})
           }}></Cascader>
@@ -112,15 +112,6 @@ const TalentSearch = () => {
       <div style={{marginTop: 24}}>
         <h3>预览表格</h3>
       <Table dataSource={list} columns={talentBaseInfoHeaders} />
-      </div>
-      <div style={{marginTop: 24,width: 500}}>
-        <h3>抖音IDS</h3>
-        <div style={{marginTop: 24,width: 500,display: 'flex', flexDirection: 'column'}}>
-          {ids.map((item,index) => {
-            if(index > 5) return ''
-            return item+','
-          })}
-        </div>
       </div>
     </div>
 }

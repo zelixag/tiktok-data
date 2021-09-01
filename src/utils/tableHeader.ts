@@ -89,23 +89,28 @@ export const talentHeaders = [
     dataIndex: "author_id",
     key: "author_id",
     className: "text-monospace",
+    fixed: 'left',
   },
   {
     title: "抖音ID",
     dataIndex: "unique_id",
     key: "unique_id",
     className: "text-monospace",
+    fixed: 'left',
   },
   {
     title: "达人",
     dataIndex: "nickname",
     key: "nickname",
     className: "text-monospace",
+    fixed: 'left',
   },
   {
     title: "简介",
     dataIndex: "signature",
     key: "signature",
+    width: 220,
+    fixed: 'left',
     className: "text-monospace",
   },
   {
@@ -238,8 +243,8 @@ export const brandTalentHeaders = [
   },
   {
     title: "推广商品数",
-    dataIndex: "week_count",
-    key: "week_count",
+    dataIndex: "product_count",
+    key: "product_count",
     className: "text-monospace",
   },
   {

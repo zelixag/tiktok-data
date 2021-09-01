@@ -11,8 +11,6 @@ const  Login = (props: Props) => {
     const {username, password} = values;
     const data = await login(username, password);
     props.login(!!data.token)
-
-    console.log('Success:', values);
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -20,6 +18,7 @@ const  Login = (props: Props) => {
   };
   return (
     <div className="dd-login">
+      <h2 style={{color: "#fff"}}>抖DATA</h2>
       <Form
       name="basic"
       labelCol={{ span: 4 }}
@@ -29,23 +28,21 @@ const  Login = (props: Props) => {
       onFinishFailed={onFinishFailed}
     >
       <Form.Item
-        label="账号"
         name="username"
         rules={[{ required: true, message: 'Please input your username!' }]}
       >
-        <Input />
+        <Input placeholder="请输入手机号" style={{width: 280}}/>
       </Form.Item>
 
       <Form.Item
-        label="密码"
         name="password"
         rules={[{ required: true, message: 'Please input your password!' }]}
       >
-        <Input.Password />
+        <Input.Password placeholder="请输入密码" style={{width: 280}}/>
       </Form.Item>
 
       <Form.Item name="remember" valuePropName="checked" wrapperCol={{ offset: 8, span: 16 }}>
-        <Checkbox>Remember me</Checkbox>
+        <Checkbox style={{color: "#fff"}}>Remember me</Checkbox>
       </Form.Item>
 
       <Form.Item wrapperCol={{ offset: 8, span: 16 }}>

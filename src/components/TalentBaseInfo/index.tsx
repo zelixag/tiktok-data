@@ -1,11 +1,11 @@
-import { Button, Cascader, Input, Select, Table } from "antd"
+import { Button, Cascader, Input, Popover, Select, Table } from "antd"
 import Cookies from "js-cookie"
 import React, { useEffect, useState } from "react"
 import { getProductCategory } from "../../services/productServices"
 import { getAwemeOverview, getStarCategory, getTalentInfo, getTalentList, getTalentLiveOverview, productAnalysis } from "../../services/talentServices"
 import { exportExcel } from "../../utils/excel"
 import { talentBuyProductHeaders, talentHeaders } from "../../utils/tableHeader"
-const MAX_COUNT = 100000
+const MAX_COUNT = 100
 const TalentSearch = () => {
   const [loading, setLoading] = useState(true)
   const [list, setList] = useState<any[]>([])
@@ -152,20 +152,20 @@ const TalentSearch = () => {
         </div>
       <div className="form-select-day form-item">
           <span>排序:</span>
-          <Select options={[{label: '粉丝增量',value: "inc_follower"}, {label: '近30日直播场均销售额',value: "live_average_amount_30"}]} style={{ width: 320, marginRight: 16 }} onChange={(value: any) => {
+          <Select options={[{label: '粉丝增量',value: "inc_follower"}, {label: '近30日直播场均销售额',value: "live_average_amount_30"}]} style={{ width: 180, marginRight: 16 }} onChange={(value: any) => {
             setSearchParams((params: any) => {return {...params, sort: value}})
           }}></Select>
         </div>
         <div className="form-select-day form-item">
           <span>选择分类:</span>
-          <Cascader fieldNames={{label: 'cat_name', value: 'id', children: 'sub_categories'}} options={starCategoryList} style={{ width: 280, marginRight: 16 }} placeholder="请输入商品链接、标题或者关键词" onChange={(value) => {
+          <Cascader fieldNames={{label: 'cat_name', value: 'id', children: 'sub_categories'}} options={starCategoryList} style={{ width: 180, marginRight: 16 }} placeholder="请输入商品链接、标题或者关键词" onChange={(value) => {
             setCategoryv(value.toString().replace(/,/g, '/'))
             setSearchParams((params: any) => {return {...params, star_category: value[0], star_sub_category: value[1]}})
           }}></Cascader>
         </div>
         <div className="form-select-day form-item">
           <span>带货分类:</span>
-          <Cascader fieldNames={{label: 'cat_name', value: 'id', children: 'sub_categories'}} options={category} style={{ width: 280, marginRight: 16 }} placeholder="请输入商品链接、标题或者关键词" onChange={(value) => {
+          <Cascader fieldNames={{label: 'cat_name', value: 'id', children: 'sub_categories'}} options={category} style={{ width: 180, marginRight: 16 }} placeholder="请输入商品链接、标题或者关键词" onChange={(value) => {
             setStarCategory(value.toString().replace(/,/g, '/'))
             setSearchParams((params: any) => {return {...params, goods_cat: value.toString()}})
           }}></Cascader>
@@ -173,13 +173,16 @@ const TalentSearch = () => {
         <Button loading={!loading} type="primary" onClick={() =>{
           search(0)
         }}>{loading ? '导出表格': `请稍等一会儿，表格已经完成${(list.length/maxCount * 100).toFixed(2)}%`}</Button>
-        <Button style={{marginLeft: 16}} type="primary" onClick={() =>{
-          setFailure(true)
-        }}>{`现在已经完成${list.length}条，点击可以马上导出数据`}</Button>
+        <Popover content={`现在已经完成${list.length}条，点击可以马上导出数据`} title="意识">
+
+          <Button style={{marginLeft: 16}} type="primary" onClick={() =>{
+            setFailure(true)
+          }}>不等,立即导出</Button>
+        </Popover>
       </div>
       <div style={{marginTop: 24}}>
         <h3>预览表格</h3>
-      <Table dataSource={list} columns={talentHeaders} />
+      <Table dataSource={list} scroll={{ x: 1500 }} columns={talentHeaders} />
       </div>
       <div style={{marginTop: 24,width: 500}}>
         <h3>抖音IDS</h3>
