@@ -42,11 +42,7 @@ const Application = () => {
   const [collapsed, setCollapsed] = useState(false)
   const match = useRouteMatch();
   useEffect(() => {
-    if(!Cookies.get()) {
-      history.replace('/')
-    } else {
-      history.push(`${match.url}${routes[0].path}`)
-    }
+    history.push(`${match.url}${routes[0].path}`)
   }, [])
   const toggleCollapsed = () => {
     setCollapsed(!collapsed);

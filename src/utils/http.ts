@@ -5,7 +5,7 @@ import { login } from "../services/userServices";
 import json2formData from "./json2formData";
 import parseObjectToUrlParams from "./parseObjectToUrlParams";
 import { message } from 'antd';
-
+import { useHistory } from "react-router-dom";
 let events = {};
 
 /**
@@ -32,6 +32,7 @@ function http(url: string, options: any) {
       if (res.errCode) {
         message.error(res.errMsg)
         Cookies.set('LOGIN-TOKEN-FORSNS', '', {});
+        window.location.href = '/'
         throw new Error(res)
       }
       return res.data;
