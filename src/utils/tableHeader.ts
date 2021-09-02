@@ -322,3 +322,102 @@ export const talentBuyProductHeaders = [
     className: "text-monospace",
   },
 ];
+
+export const awemeHeaders = [
+  {
+    title: "视频名称",
+    dataIndex: "aweme_title",
+    key: "aweme_title",
+    className: "text-monospace",
+  },
+  {
+    title: "发布时间",
+    dataIndex: "update_time",
+    key: "update_time",
+    className: "text-monospace",
+  },
+  {
+    title: "达人名称",
+    dataIndex: "nickname",
+    key: "nickname",
+    className: "text-monospace",
+  },
+  {
+    title: "抖音号",
+    dataIndex: "unique_id",
+    key: "unique_id",
+    className: "text-monospace",
+  },
+  {
+    title: "UID",
+    dataIndex: "author_id",
+    key: "author_id",
+    className: "text-monospace",
+  },
+  {
+    title: "达人简介",
+    dataIndex: "signature",
+    key: "signature",
+    className: "text-monospace",
+  },
+  {
+    title: "点赞数",
+    dataIndex: "digg_count",
+    key: "digg_count",
+    className: "text-monospace",
+  },
+  {
+    title: "转发数",
+    dataIndex: "share_count",
+    key: "share_count",
+    className: "text-monospace",
+  },
+  {
+    title: "评论数",
+    dataIndex: "comment_count",
+    key: "comment_count",
+    className: "text-monospace",
+  },
+  {
+    title: "下载数量",
+    dataIndex: "download_count",
+    key: "download_count",
+    className: "text-monospace",
+  },
+  {
+    title: "商品名称",
+    dataIndex: "title",
+    key: "title",
+    className: "text-monospace",
+  },
+  {
+    title: "商品价格",
+    dataIndex: "final_price",
+    key: "final_price",
+    className: "text-monospace",
+  },
+  {
+    title: "商品销售额",
+    dataIndex: "amount",
+    key: "amount",
+    className: "text-monospace",
+  },
+  {
+    title: "商品销量",
+    dataIndex: "volume",
+    key: "volume",
+    className: "text-monospace",
+  },
+  {
+    title: "佣金",
+    dataIndex: "estimated_commission",
+    key: "estimated_commission",
+    className: "text-monospace",
+  },
+  {
+    title: "佣金比例",
+    dataIndex: "tb_max_commission_rate",
+    key: "tb_max_commission_rate",
+    className: "text-monospace",
+  }
+];

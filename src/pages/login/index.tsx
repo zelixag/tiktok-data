@@ -1,45 +1,45 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import "./index.less";
 import { useHistory } from "react-router-dom";
 import Login from "../../components/Login/index";
 import { cloneDeep } from "lodash";
 import Cookies from 'js-cookie';
-const initBackgroundList: {backgroundImage: string, display?: string}[] = [{
-  backgroundImage:
-  `url('https://picsum.photos/1600/820?random=${new Date().getTime()}')`,
-    display: 'none'
-},{
-  backgroundImage:
-    `url('https://picsum.photos/1600/820?random=${new Date().getTime()}')`,
-    display: 'none'
-},{
-  backgroundImage:
-    `url('https://picsum.photos/1600/820?random=${new Date().getTime()}')`,
-    display: 'none'
-}]
+type BackgroundImage = {backgroundImage: string, display: string}
+let arr: BackgroundImage[] = []
+const getBackgroundImageList = () => {
+  for(let i = 0; i < 200; i++) {
+    arr.push({
+      backgroundImage:
+      `url('https://picsum.photos/1600/820?random=${i}')`,
+      display: 'none'
+    })
+  }
+}
 const LoginPage = () => {
-  const history = useHistory();
-  const [isLogin, setIsLogin] = useState(false);
-  const [backgroundList, setBackgroundList] = useState([{
-    backgroundImage:
-      "url('https://img.alicdn.com/tps/TB1pfG4IFXXXXc6XXXXXXXXXXXX.jpg')",
-      display: 'block'
-  },{
-    backgroundImage:
-      "url('https://picsum.photos/200/300')"
-  },{
-    backgroundImage:
-      "url('https://img.alicdn.com/tps/TB1h9xxIFXXXXbKXXXXXXXXXXXX.jpg')"
-  }])
   let i = 0
+  const history = useHistory();
+  getBackgroundImageList()
+  const [isLogin, setIsLogin] = useState(false);
+  const list = cloneDeep(arr);
+  list[i].display = 'block'
+  list[i+1].display = 'block'
+  list[i+2].display = 'block'
+  const [backgroundImageList, setBackgroundImageList] = useState<BackgroundImage[]>(list)
   useEffect(() => {
   (isLogin || Cookies.get('LOGIN-TOKEN-FORSNS')) && history.push("/app");
-    setInterval(() => {
-      if(i === 3) i = 0
-      const initList = cloneDeep(initBackgroundList)
-      initList[i++].display = 'block'
-      setBackgroundList(initList);
-    }, 5000)
+  setInterval(() => {
+    i++
+    setBackgroundImageList(items => {
+      let list = cloneDeep(arr)
+      list[i].display = 'block'
+      list[i+1].display = 'block'
+      list[i+2].display = 'block'
+      return list
+    })
+    if(i === 200) {
+      i=0
+    }
+  },10000)
   }, [isLogin]);
   return (
     <div className="page-login">
@@ -51,11 +51,10 @@ const LoginPage = () => {
         ></Login>
       </div>
       <div className="back">
-      <div className="items">
-        {backgroundList.map((background) =>
-          <div
-            className={`item item1`}
-            style={background}
+        <div className="items">
+        {backgroundImageList.map((item, index) => <div
+            className={`item item${index}`}
+            style={item}
           ></div>)}
         </div>
       </div>

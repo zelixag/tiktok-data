@@ -16,6 +16,7 @@ const ProductList = lazy(() => import('../product/list'));
 const TalentBaseInfo = lazy(() => import('../talent/base-info'));
 const TalentDetailINfo = lazy(() => import('../talent/detail-info'));
 const BrandTalentInfoList = lazy(() => import('../brand/talent-list'));
+const AwemeList = lazy(() => import('../aweme/list'));
 const routes = [{
   path: '/product/list',
   component: ProductList,
@@ -36,7 +37,12 @@ const routes = [{
   component: BrandTalentInfoList,
   icon:<ContainerOutlined/>,
   name: '品牌达人列表'
-},]
+},{
+  path: '/aweme/list',
+  component:AwemeList ,
+  icon:<ContainerOutlined/>,
+  name: '商品视频'
+}]
 const Application = () => {
   const history  = useHistory()
   const [collapsed, setCollapsed] = useState(false)

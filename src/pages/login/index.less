@@ -1,3 +1,12 @@
+@keyframes slidein {
+  from {
+    display: 0;
+  }
+
+  to {
+    display: 1;
+  }
+}
 .page-login {
   position: relative;
   height: 100vh;
@@ -36,22 +45,11 @@
   }
 
   .item {
-      background: #fff none no-repeat center center;
+      background: #000 none no-repeat center center;
       -webkit-background-size: cover;
       -moz-background-size: cover;
       -o-background-size: cover;
       background-size: cover;
-      display: none;
-      animation-duration: 3s;
-      animation-name: slidein;
-  }
-}
-@keyframes slidein {
-  from {
-    display: none;
-  }
-
-  to {
-    display: block;
+      transition: background-image 3s;
   }
 }

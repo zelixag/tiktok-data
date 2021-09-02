@@ -173,7 +173,7 @@ const TalentSearch = () => {
         <Button loading={!loading} type="primary" onClick={() =>{
           search(0)
         }}>{loading ? '导出表格': `请稍等一会儿，表格已经完成${(list.length/maxCount * 100).toFixed(2)}%`}</Button>
-        <Popover content={`现在已经完成${list.length}条，点击可以马上导出数据`} title="意识">
+        <Popover content={`现在已经完成${list.length}条，点击可以马上导出数据`} title="提示">
 
           <Button style={{marginLeft: 16}} type="primary" onClick={() =>{
             setFailure(true)
