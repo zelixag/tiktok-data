@@ -6,13 +6,16 @@ import { cloneDeep } from "lodash";
 import Cookies from 'js-cookie';
 const initBackgroundList: {backgroundImage: string, display?: string}[] = [{
   backgroundImage:
-    "url('https://img.alicdn.com/tps/TB1pfG4IFXXXXc6XXXXXXXXXXXX.jpg')",
+  `url('https://picsum.photos/1600/820?random=${new Date().getTime()}')`,
+    display: 'none'
 },{
   backgroundImage:
-    "url('https://img.alicdn.com/tps/TB1sXGYIFXXXXc5XpXXXXXXXXXX.jpg')"
+    `url('https://picsum.photos/1600/820?random=${new Date().getTime()}')`,
+    display: 'none'
 },{
   backgroundImage:
-    "url('https://img.alicdn.com/tps/TB1h9xxIFXXXXbKXXXXXXXXXXXX.jpg')"
+    `url('https://picsum.photos/1600/820?random=${new Date().getTime()}')`,
+    display: 'none'
 }]
 const LoginPage = () => {
   const history = useHistory();
@@ -23,7 +26,7 @@ const LoginPage = () => {
       display: 'block'
   },{
     backgroundImage:
-      "url('https://img.alicdn.com/tps/TB1sXGYIFXXXXc5XpXXXXXXXXXX.jpg')"
+      "url('https://picsum.photos/200/300')"
   },{
     backgroundImage:
       "url('https://img.alicdn.com/tps/TB1h9xxIFXXXXbKXXXXXXXXXXXX.jpg')"
