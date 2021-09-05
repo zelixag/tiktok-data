@@ -81,7 +81,7 @@ export const talentBaseInfoHeaders = [
     dataIndex: "nickname",
     key: "nickname",
     className: "text-monospace",
-  }
+  },
 ];
 export const talentHeaders = [
   {
@@ -89,28 +89,28 @@ export const talentHeaders = [
     dataIndex: "author_id",
     key: "author_id",
     className: "text-monospace",
-    fixed: 'left',
+    fixed: "left",
   },
   {
     title: "抖音ID",
     dataIndex: "unique_id",
     key: "unique_id",
     className: "text-monospace",
-    fixed: 'left',
+    fixed: "left",
   },
   {
     title: "达人",
     dataIndex: "nickname",
     key: "nickname",
     className: "text-monospace",
-    fixed: 'left',
+    fixed: "left",
   },
   {
     title: "简介",
     dataIndex: "signature",
     key: "signature",
     width: 220,
-    fixed: 'left',
+    fixed: "left",
     className: "text-monospace",
   },
   {
@@ -270,7 +270,27 @@ export const brandTalentHeaders = [
     dataIndex: "amount",
     key: "amount",
     className: "text-monospace",
-  }
+  },
+];
+export const talentBatchHeaders = [
+  {
+    title: "抖音ID",
+    dataIndex: "unique_id",
+    key: "unique_id",
+    className: "text-monospace",
+  },
+  {
+    title: "抖音昵称",
+    dataIndex: "nickname",
+    key: "nickname",
+    className: "text-monospace",
+  },
+  {
+    title: "达人类型",
+    dataIndex: "talent_type",
+    key: "talent_type",
+    className: "text-monospace",
+  },
 ];
 export const talentBuyProductHeaders = [
   {
@@ -419,5 +439,5 @@ export const awemeHeaders = [
     dataIndex: "tb_max_commission_rate",
     key: "tb_max_commission_rate",
     className: "text-monospace",
-  }
+  },
 ];

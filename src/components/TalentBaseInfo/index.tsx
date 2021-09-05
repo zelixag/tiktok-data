@@ -191,7 +191,7 @@ const TalentSearch = () => {
         <span>关键字:</span>
         <Input
           style={{ width: 280, marginRight: 16 }}
-          placeholder="请输入商品链接、标题或者关键词"
+          placeholder="达人id，达人昵称"
           onChange={(event) => {
             setKeyword(event.target.value);
             setSearchParams((params: any) => {

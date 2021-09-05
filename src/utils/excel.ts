@@ -1,9 +1,9 @@
 import XLSX from "xlsx";
 interface IHeader {
-  title: string,
-  dataIndex: string,
-  key: string,
-  className?: string,
+  title: string;
+  dataIndex: string;
+  key: string;
+  className?: string;
 }
 //引入xlsx
 /**
@@ -49,7 +49,11 @@ const importsExcel = (file: any) => {
  * @param {*} data
  * @param {*} fileName
  */
-const exportExcel = (headers: IHeader[], data: any, fileName: string = "demo.xlsx") => {
+const exportExcel = (
+  headers: IHeader[],
+  data: any,
+  fileName: string = "demo.xlsx"
+) => {
   const _headers = headers
     .map((item: IHeader, i: number) =>
       Object.assign(
