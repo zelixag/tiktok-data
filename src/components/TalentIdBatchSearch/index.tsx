@@ -86,6 +86,9 @@ const TalentByIdBatchSearch = () => {
       !total && setTotal(() => total + filterList.length);
       talentList = talentList.concat(filterList);
       await search(index + 1);
+    } else {
+      exportExcel(talentBatchHeaders, talentList, `关于达人信息列表.xlsx`);
+      setLoading(true);
     }
   };
   return (
