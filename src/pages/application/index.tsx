@@ -22,6 +22,7 @@ const ProductList = lazy(() => import("../product/list"));
 const TalentBaseInfo = lazy(() => import("../talent/base-info"));
 const TalentDetailINfo = lazy(() => import("../talent/detail-info"));
 const TalentBatchList = lazy(() => import("../talent/batch-list"));
+const TalentBatchInfoList = lazy(() => import("../talent/batch-info-list"));
 const BrandTalentInfoList = lazy(() => import("../brand/talent-list"));
 const AwemeList = lazy(() => import("../aweme/list"));
 const routes = [
@@ -48,6 +49,12 @@ const routes = [
     component: TalentBatchList,
     icon: <DesktopOutlined />,
     name: "达人批量ID或抖音昵称列表",
+  },
+  {
+    path: "/talent/batch-info—list",
+    component: TalentBatchInfoList,
+    icon: <DesktopOutlined />,
+    name: "达人批量ID或抖音昵称详细列表",
   },
   {
     path: "/brand/talent-list",
