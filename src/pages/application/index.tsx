@@ -25,6 +25,7 @@ const TalentBatchList = lazy(() => import("../talent/batch-list"));
 const TalentBatchInfoList = lazy(() => import("../talent/batch-info-list"));
 const BrandTalentInfoList = lazy(() => import("../brand/talent-list"));
 const AwemeList = lazy(() => import("../aweme/list"));
+const Test = lazy(() => import("../test"));
 const routes = [
   {
     path: "/product/list",
@@ -67,6 +68,12 @@ const routes = [
     component: AwemeList,
     icon: <ContainerOutlined />,
     name: "商品视频",
+  },
+  {
+    path: "/test/index",
+    component: Test,
+    icon: <ContainerOutlined />,
+    name: "联系页面",
   },
 ];
 const Application = () => {

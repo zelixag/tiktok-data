@@ -1,4 +1,5 @@
 const { createProxyMiddleware } = require("http-proxy-middleware");
+const express = require('express');
 
 module.exports = (req, res) => {
   let target = "";
@@ -20,3 +21,18 @@ module.exports = (req, res) => {
     },
   })(req, res);
 };
+const target = "https://api-service.chanmama.com";
+const exampleProxy = createProxyMiddleware({
+  target,
+  changeOrigin: true,
+  pathRewrite: {
+    // 通过路径重写，去除请求路径中的 `/backend`
+    // 例如 /backend/user/login 将被转发到 http://backend-api.com/user/login
+    "^/api/": "/api",
+  },
+});
+
+// mount `exampleProxy` in web server
+const app = express();
+app.use('/api', exampleProxy);
+app.listen(3000);
