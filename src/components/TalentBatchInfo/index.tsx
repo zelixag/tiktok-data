@@ -39,14 +39,11 @@ const TalentByIdBatchSearch = () => {
     verification_type: 0,
     sort: "follower_count",
     order_by: "desc",
-    size: 52,
+    size: 100,
     similar_author_id: undefined,
   };
   useEffect(() => {
-    if (
-      (list.length > 0 && (list.length === total || total === 5)) ||
-      list.length === 5
-    ) {
+    if (list.length > 0 && (list.length === total || total === 500)) {
       exportExcel(talentHeaders, list, `关于达人信息列表.xlsx`);
       setLoading(true);
     }
@@ -54,7 +51,7 @@ const TalentByIdBatchSearch = () => {
   let talentList: any[] = [];
   let time = 0;
   const getDetail = (author_id: string) => {
-    if (list.length > 5) return;
+    if (list.length > 500) return;
     time += 1000;
     setTimeout(async () => {
       const info = await getTalentInfo(author_id);
@@ -82,12 +79,11 @@ const TalentByIdBatchSearch = () => {
       talentList.push(talentInfo.list[0]);
       setTimeout(() => {
         search(index + 1);
-      }, 500);
+      }, 1000);
     } else {
       const ids = talentList.map((item) => item.author_id);
 
       for (let i = 0; i < ids.length; i++) {
-        if (i === 5) break;
         getDetail(ids[i]);
       }
     }
