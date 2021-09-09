@@ -33,6 +33,20 @@ Demo.defaultProps = {
 };
 console.log(Demo.defaultProps);
 
-// interface
+interface Animal {
+  /**动物颜色 */
+  color: string;
+}
 
+interface Animal {
+  /** 动物名字 */
+  name: string;
+}
+class Tiger implements Animal {
+  color = "黄白色";
+  name = "老虎";
+}
+
+const tiger = new Tiger();
+console.log(tiger);
 export default Test;

@@ -25,9 +25,9 @@ export default defineConfig({
       //假如你要请求https://api.*.com/a/a
       //那么axios的url，可以配置为 /api/a/a
       "/api": {
-        target: "http://127.0.0.1:3000",
+        target: "https://api-service.chanmama.com",
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, "/api"),
+        rewrite: (path) => path.replace(/^\/api/, ""),
       },
     },
   },
